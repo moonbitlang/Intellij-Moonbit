@@ -2,13 +2,12 @@
 package com.github.moonbit.psi;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
 public interface MoonFunctionExtern extends PsiElement {
 
-    @NotNull
-    MoonStringLiteral getStringLiteral();
+  @NotNull
+  MoonStringLiteral getStringLiteral();
 
 }

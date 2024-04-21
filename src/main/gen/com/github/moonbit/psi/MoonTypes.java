@@ -159,6 +159,7 @@ public interface MoonTypes {
     IElementType OP_NE = new MoonTokenType("OP_NE");
     IElementType OP_OR = new MoonTokenType("OP_OR");
     IElementType OP_PATTERN_TO = new MoonTokenType("OP_PATTERN_TO");
+    IElementType OP_RANGE_TO = new MoonTokenType("OP_RANGE_TO");
     IElementType OP_REF = new MoonTokenType("OP_REF");
     IElementType OP_SPREAD = new MoonTokenType("OP_SPREAD");
     IElementType OP_SUB = new MoonTokenType("OP_SUB");

@@ -87,8 +87,9 @@ KW_FN      = "fn"
 	"@" { return AT; }
 	"," { return COMMA; }
 
-	".." { return OP_SPREAD; }
-	"."  { return DOT; }
+    "..<" { return OP_RANGE_TO; }
+	".."  { return OP_SPREAD; }
+	"."   { return DOT; }
 
 
 	"+=" { return OP_ADD_ASSIGN; }

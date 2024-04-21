@@ -226,6 +226,7 @@ term-infix  ::= OP_ASSIGN
 	| OP_OR | OP_AND
 	| OP_THEN
 	| OP_SPREAD
+	| OP_RANGE_TO
 term-suffix   ::= OP_THROW
 	| call-function
 	| call-method

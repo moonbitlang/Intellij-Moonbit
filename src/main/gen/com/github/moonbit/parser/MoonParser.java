@@ -2185,6 +2185,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
     // 	| OP_OR | OP_AND
     // 	| OP_THEN
     // 	| OP_SPREAD
+    // 	| OP_RANGE_TO
     public static boolean term_infix(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "term_infix")) return false;
         boolean r;
@@ -2207,6 +2208,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
         if (!r) r = consumeToken(b, OP_AND);
         if (!r) r = consumeToken(b, OP_THEN);
         if (!r) r = consumeToken(b, OP_SPREAD);
+        if (!r) r = consumeToken(b, OP_RANGE_TO);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
