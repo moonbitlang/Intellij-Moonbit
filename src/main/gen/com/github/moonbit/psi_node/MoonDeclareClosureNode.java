@@ -29,8 +29,8 @@ public class MoonDeclareClosureNode extends AnyMoonNode implements MoonDeclareCl
 
     @Override
     @Nullable
-    public MoonDeclareParameters getDeclareParameters() {
-        return findChildByClass(MoonDeclareParameters.class);
+    public MoonClosureParameters getClosureParameters() {
+        return findChildByClass(MoonClosureParameters.class);
     }
 
     @Override

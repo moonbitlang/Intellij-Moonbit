@@ -14,6 +14,7 @@ public interface MoonTypes {
     IElementType CALL_METHOD = new MoonElementType("CALL_METHOD");
     IElementType CALL_SLICE = new MoonElementType("CALL_SLICE");
     IElementType CHAR_LITERAL = new MoonElementType("CHAR_LITERAL");
+    IElementType CLOSURE_PARAMETERS = new MoonElementType("CLOSURE_PARAMETERS");
     IElementType CONTROL_STATEMENT = new MoonElementType("CONTROL_STATEMENT");
     IElementType DECLARE_CLOSURE = new MoonElementType("DECLARE_CLOSURE");
     IElementType DECLARE_ENUM = new MoonElementType("DECLARE_ENUM");
@@ -191,6 +192,8 @@ public interface MoonTypes {
                 return new MoonCallSliceNode(node);
             } else if (type == CHAR_LITERAL) {
                 return new MoonCharLiteralNode(node);
+            } else if (type == CLOSURE_PARAMETERS) {
+                return new MoonClosureParametersNode(node);
             } else if (type == CONTROL_STATEMENT) {
                 return new MoonControlStatementNode(node);
             } else if (type == DECLARE_CLOSURE) {

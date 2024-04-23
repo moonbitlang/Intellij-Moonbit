@@ -209,6 +209,68 @@ public class MoonParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
+    // PARENTHESIS_L (identifier (COMMA identifier)* COMMA?)? PARENTHESIS_R
+    public static boolean closure_parameters(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "closure_parameters")) return false;
+        if (!nextTokenIs(b, PARENTHESIS_L)) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, PARENTHESIS_L);
+        r = r && closure_parameters_1(b, l + 1);
+        r = r && consumeToken(b, PARENTHESIS_R);
+        exit_section_(b, m, CLOSURE_PARAMETERS, r);
+        return r;
+    }
+
+    // (identifier (COMMA identifier)* COMMA?)?
+    private static boolean closure_parameters_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "closure_parameters_1")) return false;
+        closure_parameters_1_0(b, l + 1);
+        return true;
+    }
+
+    // identifier (COMMA identifier)* COMMA?
+    private static boolean closure_parameters_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "closure_parameters_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = identifier(b, l + 1);
+        r = r && closure_parameters_1_0_1(b, l + 1);
+        r = r && closure_parameters_1_0_2(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // (COMMA identifier)*
+    private static boolean closure_parameters_1_0_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "closure_parameters_1_0_1")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!closure_parameters_1_0_1_0(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "closure_parameters_1_0_1", c)) break;
+        }
+        return true;
+    }
+
+    // COMMA identifier
+    private static boolean closure_parameters_1_0_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "closure_parameters_1_0_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, COMMA);
+        r = r && identifier(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // COMMA?
+    private static boolean closure_parameters_1_0_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "closure_parameters_1_0_2")) return false;
+        consumeToken(b, COMMA);
+        return true;
+    }
+
+    /* ********************************************************** */
     // KW_RETURN term-expression?
     //   | KW_CONTINUE term-expression?
     //   | KW_BREAK term-expression?
@@ -298,7 +360,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_FN declare-parameters function-body
+    // KW_FN closure-parameters function-body
     public static boolean declare_closure(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_closure")) return false;
         if (!nextTokenIs(b, KW_FN)) return false;
@@ -306,7 +368,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
         Marker m = enter_section_(b, l, _NONE_, DECLARE_CLOSURE, null);
         r = consumeToken(b, KW_FN);
         p = r; // pin = 1
-        r = r && report_error_(b, declare_parameters(b, l + 1));
+        r = r && report_error_(b, closure_parameters(b, l + 1));
         r = p && function_body(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
@@ -1758,7 +1820,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // identifier OP_REF? (COLON type-expression (OP_ASSIGN term-expression)?)? {
+    // identifier OP_REF? COLON type-expression (OP_ASSIGN term-expression)? {
     // }
     public static boolean parameter(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "parameter")) return false;
@@ -1767,8 +1829,10 @@ public class MoonParser implements PsiParser, LightPsiParser {
         Marker m = enter_section_(b, l, _NONE_, PARAMETER, "<parameter>");
         r = identifier(b, l + 1);
         r = r && parameter_1(b, l + 1);
-        r = r && parameter_2(b, l + 1);
-        r = r && parameter_3(b, l + 1);
+        r = r && consumeToken(b, COLON);
+        r = r && type_expression(b, l + 1);
+        r = r && parameter_4(b, l + 1);
+        r = r && parameter_5(b, l + 1);
         exit_section_(b, l, m, r, false, null);
         return r;
     }
@@ -1780,35 +1844,16 @@ public class MoonParser implements PsiParser, LightPsiParser {
         return true;
     }
 
-    // (COLON type-expression (OP_ASSIGN term-expression)?)?
-    private static boolean parameter_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "parameter_2")) return false;
-        parameter_2_0(b, l + 1);
-        return true;
-    }
-
-    // COLON type-expression (OP_ASSIGN term-expression)?
-    private static boolean parameter_2_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "parameter_2_0")) return false;
-        boolean r;
-        Marker m = enter_section_(b);
-        r = consumeToken(b, COLON);
-        r = r && type_expression(b, l + 1);
-        r = r && parameter_2_0_2(b, l + 1);
-        exit_section_(b, m, null, r);
-        return r;
-    }
-
     // (OP_ASSIGN term-expression)?
-    private static boolean parameter_2_0_2(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "parameter_2_0_2")) return false;
-        parameter_2_0_2_0(b, l + 1);
+    private static boolean parameter_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "parameter_4")) return false;
+        parameter_4_0(b, l + 1);
         return true;
     }
 
     // OP_ASSIGN term-expression
-    private static boolean parameter_2_0_2_0(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "parameter_2_0_2_0")) return false;
+    private static boolean parameter_4_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "parameter_4_0")) return false;
         boolean r;
         Marker m = enter_section_(b);
         r = consumeToken(b, OP_ASSIGN);
@@ -1819,7 +1864,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
 
     // {
     // }
-    private static boolean parameter_3(PsiBuilder b, int l) {
+    private static boolean parameter_5(PsiBuilder b, int l) {
         return true;
     }
 

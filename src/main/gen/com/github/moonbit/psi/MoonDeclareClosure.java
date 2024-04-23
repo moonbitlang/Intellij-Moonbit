@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface MoonDeclareClosure extends PsiElement {
 
     @Nullable
-    MoonDeclareParameters getDeclareParameters();
+    MoonClosureParameters getClosureParameters();
 
     @Nullable
     MoonFunctionBody getFunctionBody();

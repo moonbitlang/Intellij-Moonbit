@@ -130,7 +130,7 @@ let-statement ::= modifier? KW_LET KW_MUTABLE? identifier type-hint? OP_ASSIGN t
 }
 // =====================================================================================================================
 declare-function ::= modifier* function-extern? KW_FN namepath declare-generic? declare-parameters return-type? (function-body | function-inline) {
-	pin = 3
+//	pin = 3
 //    mixin = "com.github.bytecodealliance.language.mixin.MixinInterface"
 }
 function-extern ::= KW_EXTERN string-literal;
@@ -149,7 +149,7 @@ private function-element ::= SEMICOLON
 	| term-expression
 // =====================================================================================================================
 declare-parameters ::= PARENTHESIS_L (parameter (COMMA parameter)* COMMA?)? PARENTHESIS_R
-parameter ::= identifier OP_REF? (COLON type-expression (OP_ASSIGN term-expression)?)? {
+parameter ::= identifier OP_REF? COLON type-expression (OP_ASSIGN term-expression)? {
 
 }
 control-statement ::=
@@ -162,9 +162,10 @@ modifier ::= KW_PUBLIC | KW_PRIVATE;
 declare-generic ::= BRACKET_L (generic-item (COMMA generic-item)*)? BRACKET_R;
 generic-item ::= identifier (COLON type-expression)?;
 // =====================================================================================================================
-declare-closure  ::= KW_FN declare-parameters function-body {
-	pin = 1
+declare-closure  ::= KW_FN closure-parameters? function-body {
+//	pin = 1
 }
+closure-parameters ::= PARENTHESIS_L (identifier (COMMA identifier)* COMMA?)? PARENTHESIS_R
 // =====================================================================================================================
 declare-test ::= KW_TEST string-literal? function-body {
 	pin = 1

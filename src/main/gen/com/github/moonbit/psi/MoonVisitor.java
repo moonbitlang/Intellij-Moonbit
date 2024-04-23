@@ -31,97 +31,101 @@ public class MoonVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitControlStatement(@NotNull MoonControlStatement o) {
-    visitPsiElement(o);
-  }
+    public void visitClosureParameters(@NotNull MoonClosureParameters o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareClosure(@NotNull MoonDeclareClosure o) {
-    visitPsiElement(o);
-  }
+    public void visitControlStatement(@NotNull MoonControlStatement o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareEnum(@NotNull MoonDeclareEnum o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareClosure(@NotNull MoonDeclareClosure o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareField(@NotNull MoonDeclareField o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareEnum(@NotNull MoonDeclareEnum o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareFunction(@NotNull MoonDeclareFunction o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareField(@NotNull MoonDeclareField o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareGeneric(@NotNull MoonDeclareGeneric o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareFunction(@NotNull MoonDeclareFunction o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareImpl(@NotNull MoonDeclareImpl o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareGeneric(@NotNull MoonDeclareGeneric o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareMethod(@NotNull MoonDeclareMethod o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareImpl(@NotNull MoonDeclareImpl o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareParameters(@NotNull MoonDeclareParameters o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareMethod(@NotNull MoonDeclareMethod o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareSignature(@NotNull MoonDeclareSignature o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareParameters(@NotNull MoonDeclareParameters o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareStruct(@NotNull MoonDeclareStruct o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareSignature(@NotNull MoonDeclareSignature o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareTest(@NotNull MoonDeclareTest o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareStruct(@NotNull MoonDeclareStruct o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareTrait(@NotNull MoonDeclareTrait o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareTest(@NotNull MoonDeclareTest o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeclareVariant(@NotNull MoonDeclareVariant o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareTrait(@NotNull MoonDeclareTrait o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDefineType(@NotNull MoonDefineType o) {
-    visitPsiElement(o);
-  }
+    public void visitDeclareVariant(@NotNull MoonDeclareVariant o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDeriveStatement(@NotNull MoonDeriveStatement o) {
-    visitPsiElement(o);
-  }
+    public void visitDefineType(@NotNull MoonDefineType o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDictLiteral(@NotNull MoonDictLiteral o) {
-    visitPsiElement(o);
-  }
+    public void visitDeriveStatement(@NotNull MoonDeriveStatement o) {
+        visitPsiElement(o);
+    }
 
-  public void visitDictTerm(@NotNull MoonDictTerm o) {
-    visitPsiElement(o);
-  }
+    public void visitDictLiteral(@NotNull MoonDictLiteral o) {
+        visitPsiElement(o);
+    }
 
-  public void visitElseStatement(@NotNull MoonElseStatement o) {
-    visitPsiElement(o);
-  }
+    public void visitDictTerm(@NotNull MoonDictTerm o) {
+        visitPsiElement(o);
+    }
 
-  public void visitEnumBody(@NotNull MoonEnumBody o) {
-    visitPsiElement(o);
-  }
+    public void visitElseStatement(@NotNull MoonElseStatement o) {
+        visitPsiElement(o);
+    }
 
-  public void visitErrorable(@NotNull MoonErrorable o) {
-    visitPsiElement(o);
-  }
+    public void visitEnumBody(@NotNull MoonEnumBody o) {
+        visitPsiElement(o);
+    }
 
-  public void visitFlags(@NotNull MoonFlags o) {
-    visitPsiElement(o);
-  }
+    public void visitErrorable(@NotNull MoonErrorable o) {
+        visitPsiElement(o);
+    }
 
-  public void visitForCondition(@NotNull MoonForCondition o) {
-    visitPsiElement(o);
-  }
+    public void visitFlags(@NotNull MoonFlags o) {
+        visitPsiElement(o);
+    }
+
+    public void visitForCondition(@NotNull MoonForCondition o) {
+        visitPsiElement(o);
+    }
 
     public void visitForInStatement(@NotNull MoonForInStatement o) {
         visitPsiElement(o);
