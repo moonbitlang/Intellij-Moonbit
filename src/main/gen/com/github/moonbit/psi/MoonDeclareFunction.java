@@ -10,7 +10,7 @@ public interface MoonDeclareFunction extends PsiElement {
   @Nullable
   MoonDeclareGeneric getDeclareGeneric();
 
-  @Nullable
+  @NotNull
   MoonDeclareParameters getDeclareParameters();
 
   @Nullable
@@ -25,7 +25,7 @@ public interface MoonDeclareFunction extends PsiElement {
   @NotNull
   List<MoonModifier> getModifierList();
 
-  @Nullable
+  @NotNull
   MoonNamepath getNamepath();
 
   @Nullable

@@ -115,6 +115,7 @@ public interface MoonTypes {
     IElementType ESCAPED = new MoonTokenType("ESCAPED");
     IElementType HYPHEN = new MoonTokenType("HYPHEN");
     IElementType INTEGER = new MoonTokenType("INTEGER");
+    IElementType KW_ALL = new MoonTokenType("KW_ALL");
     IElementType KW_BREAK = new MoonTokenType("KW_BREAK");
     IElementType KW_CONTINUE = new MoonTokenType("KW_CONTINUE");
     IElementType KW_DERIVE = new MoonTokenType("KW_DERIVE");
@@ -130,6 +131,7 @@ public interface MoonTypes {
     IElementType KW_LET = new MoonTokenType("KW_LET");
     IElementType KW_MATCH = new MoonTokenType("KW_MATCH");
     IElementType KW_MUTABLE = new MoonTokenType("KW_MUTABLE");
+    IElementType KW_OPEN = new MoonTokenType("KW_OPEN");
     IElementType KW_PACKAGE = new MoonTokenType("KW_PACKAGE");
     IElementType KW_PRIVATE = new MoonTokenType("KW_PRIVATE");
     IElementType KW_PUBLIC = new MoonTokenType("KW_PUBLIC");

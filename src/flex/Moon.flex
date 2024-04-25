@@ -57,7 +57,7 @@ KW_CONSTRUCTOR = "constructor"
 KW_TRAIT    = "trait"
 KW_STRUCT  = "struct"
 
-KW_PUBLIC  = "pub"
+
 KW_PRIVATE = "priv"
 KW_MUTABLE = "mut"
 KW_LET     = "let"
@@ -133,7 +133,10 @@ KW_FN      = "fn"
       with       { return KW_WITH; }
 
 	extern       { return KW_EXTERN; }
-	{KW_PUBLIC}  { return KW_PUBLIC; }
+	pub          { return KW_PUBLIC; }
+	all          { return KW_ALL; }
+	open         { return KW_OPEN; }
+
 	{KW_PRIVATE} { return KW_PRIVATE; }
 
 	{KW_MUTABLE} { return KW_MUTABLE; }
@@ -144,6 +147,9 @@ KW_FN      = "fn"
 
 	if    { return KW_IF; }
 	else  { return KW_ELSE; }
+
+
+
 
     match { return KW_MATCH; }
 

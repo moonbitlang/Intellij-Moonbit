@@ -360,18 +360,34 @@ public class MoonParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_FN closure-parameters function-body
+    // KW_FN closure-parameters? function-body {
+    // //	pin = 1
+    // }
     public static boolean declare_closure(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_closure")) return false;
         if (!nextTokenIs(b, KW_FN)) return false;
-        boolean r, p;
-        Marker m = enter_section_(b, l, _NONE_, DECLARE_CLOSURE, null);
+        boolean r;
+        Marker m = enter_section_(b);
         r = consumeToken(b, KW_FN);
-        p = r; // pin = 1
-        r = r && report_error_(b, closure_parameters(b, l + 1));
-        r = p && function_body(b, l + 1) && r;
-        exit_section_(b, l, m, r, p, null);
-        return r || p;
+        r = r && declare_closure_1(b, l + 1);
+        r = r && function_body(b, l + 1);
+        r = r && declare_closure_3(b, l + 1);
+        exit_section_(b, m, DECLARE_CLOSURE, r);
+        return r;
+    }
+
+    // closure-parameters?
+    private static boolean declare_closure_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "declare_closure_1")) return false;
+        closure_parameters(b, l + 1);
+        return true;
+    }
+
+    // {
+    // //	pin = 1
+    // }
+    private static boolean declare_closure_3(PsiBuilder b, int l) {
+        return true;
     }
 
     /* ********************************************************** */
@@ -439,22 +455,25 @@ public class MoonParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // modifier* function-extern? KW_FN namepath declare-generic? declare-parameters return-type? (function-body | function-inline)
+    // modifier* function-extern? KW_FN namepath declare-generic? declare-parameters return-type? (function-body | function-inline) {
+    // //	pin = 3
+    // //    mixin = "com.github.bytecodealliance.language.mixin.MixinInterface"
+    // }
     public static boolean declare_function(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "declare_function")) return false;
-        boolean r, p;
+        boolean r;
         Marker m = enter_section_(b, l, _NONE_, DECLARE_FUNCTION, "<declare function>");
         r = declare_function_0(b, l + 1);
         r = r && declare_function_1(b, l + 1);
         r = r && consumeToken(b, KW_FN);
-        p = r; // pin = 3
-        r = r && report_error_(b, namepath(b, l + 1));
-        r = p && report_error_(b, declare_function_4(b, l + 1)) && r;
-        r = p && report_error_(b, declare_parameters(b, l + 1)) && r;
-        r = p && report_error_(b, declare_function_6(b, l + 1)) && r;
-        r = p && declare_function_7(b, l + 1) && r;
-        exit_section_(b, l, m, r, p, null);
-        return r || p;
+        r = r && namepath(b, l + 1);
+        r = r && declare_function_4(b, l + 1);
+        r = r && declare_parameters(b, l + 1);
+        r = r && declare_function_6(b, l + 1);
+        r = r && declare_function_7(b, l + 1);
+        r = r && declare_function_8(b, l + 1);
+        exit_section_(b, l, m, r, false, null);
+        return r;
     }
 
     // modifier*
@@ -496,6 +515,14 @@ public class MoonParser implements PsiParser, LightPsiParser {
         r = function_body(b, l + 1);
         if (!r) r = function_inline(b, l + 1);
         return r;
+    }
+
+    // {
+    // //	pin = 3
+    // //    mixin = "com.github.bytecodealliance.language.mixin.MixinInterface"
+    // }
+    private static boolean declare_function_8(PsiBuilder b, int l) {
+        return true;
     }
 
     /* ********************************************************** */
@@ -813,7 +840,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // modifier* KW_TYPE type-expression type-expression?
+    // modifier* KW_TYPE OP_ERROR? type-expression type-expression?
     public static boolean define_type(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "define_type")) return false;
         boolean r, p;
@@ -821,8 +848,9 @@ public class MoonParser implements PsiParser, LightPsiParser {
         r = define_type_0(b, l + 1);
         r = r && consumeToken(b, KW_TYPE);
         p = r; // pin = 2
-        r = r && report_error_(b, type_expression(b, l + 1));
-        r = p && define_type_3(b, l + 1) && r;
+        r = r && report_error_(b, define_type_2(b, l + 1));
+        r = p && report_error_(b, type_expression(b, l + 1)) && r;
+        r = p && define_type_4(b, l + 1) && r;
         exit_section_(b, l, m, r, p, null);
         return r || p;
     }
@@ -838,9 +866,16 @@ public class MoonParser implements PsiParser, LightPsiParser {
         return true;
     }
 
+    // OP_ERROR?
+    private static boolean define_type_2(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "define_type_2")) return false;
+        consumeToken(b, OP_ERROR);
+        return true;
+    }
+
     // type-expression?
-    private static boolean define_type_3(PsiBuilder b, int l) {
-        if (!recursion_guard_(b, l, "define_type_3")) return false;
+    private static boolean define_type_4(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "define_type_4")) return false;
         type_expression(b, l + 1);
         return true;
     }
@@ -1629,15 +1664,55 @@ public class MoonParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
-    // KW_PUBLIC | KW_PRIVATE
+    // KW_PUBLIC (PARENTHESIS_L (KW_ALL|KW_OPEN) PARENTHESIS_R)?
+    //   | KW_PRIVATE
     public static boolean modifier(PsiBuilder b, int l) {
         if (!recursion_guard_(b, l, "modifier")) return false;
         if (!nextTokenIs(b, "<modifier>", KW_PRIVATE, KW_PUBLIC)) return false;
         boolean r;
         Marker m = enter_section_(b, l, _NONE_, MODIFIER, "<modifier>");
-        r = consumeToken(b, KW_PUBLIC);
+        r = modifier_0(b, l + 1);
         if (!r) r = consumeToken(b, KW_PRIVATE);
         exit_section_(b, l, m, r, false, null);
+        return r;
+    }
+
+    // KW_PUBLIC (PARENTHESIS_L (KW_ALL|KW_OPEN) PARENTHESIS_R)?
+    private static boolean modifier_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "modifier_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, KW_PUBLIC);
+        r = r && modifier_0_1(b, l + 1);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // (PARENTHESIS_L (KW_ALL|KW_OPEN) PARENTHESIS_R)?
+    private static boolean modifier_0_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "modifier_0_1")) return false;
+        modifier_0_1_0(b, l + 1);
+        return true;
+    }
+
+    // PARENTHESIS_L (KW_ALL|KW_OPEN) PARENTHESIS_R
+    private static boolean modifier_0_1_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "modifier_0_1_0")) return false;
+        boolean r;
+        Marker m = enter_section_(b);
+        r = consumeToken(b, PARENTHESIS_L);
+        r = r && modifier_0_1_0_1(b, l + 1);
+        r = r && consumeToken(b, PARENTHESIS_R);
+        exit_section_(b, m, null, r);
+        return r;
+    }
+
+    // KW_ALL|KW_OPEN
+    private static boolean modifier_0_1_0_1(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "modifier_0_1_0_1")) return false;
+        boolean r;
+        r = consumeToken(b, KW_ALL);
+        if (!r) r = consumeToken(b, KW_OPEN);
         return r;
     }
 

@@ -90,7 +90,7 @@ declare-variant ::= identifier;
 
 // =====================================================================================================================
 // priv type UninitializedArray[T] FixedArray[UnsafeMaybeUninit[T]]
-define-type ::= modifier* KW_TYPE type-expression type-expression? {
+define-type ::= modifier* KW_TYPE OP_ERROR? type-expression type-expression? {
 	pin = 2
 }
 type-hint ::= COLON type-expression;
@@ -158,7 +158,9 @@ control-statement ::=
   | KW_BREAK term-expression?
   | KW_RAISE term-expression?
 
-modifier ::= KW_PUBLIC | KW_PRIVATE;
+modifier ::=
+	KW_PUBLIC (PARENTHESIS_L (KW_ALL|KW_OPEN) PARENTHESIS_R)?
+  | KW_PRIVATE;
 declare-generic ::= BRACKET_L (generic-item (COMMA generic-item)*)? BRACKET_R;
 generic-item ::= identifier (COLON type-expression)?;
 // =====================================================================================================================

@@ -2,15 +2,13 @@
 package com.github.moonbit.psi;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MoonDeclareClosure extends PsiElement {
-
-    @Nullable
-    MoonClosureParameters getClosureParameters();
+public interface MoonClosureParameters extends PsiElement {
 
     @NotNull
-    MoonFunctionBody getFunctionBody();
+    List<MoonIdentifier> getIdentifierList();
 
 }
