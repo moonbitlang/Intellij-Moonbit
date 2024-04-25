@@ -95,6 +95,10 @@ public class MoonVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitDefineTypeAlias(@NotNull MoonDefineTypeAlias o) {
+        visitPsiElement(o);
+    }
+
     public void visitDeriveStatement(@NotNull MoonDeriveStatement o) {
         visitPsiElement(o);
     }

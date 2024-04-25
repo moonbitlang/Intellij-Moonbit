@@ -21,12 +21,14 @@ class MbtiSyntaxHighlighter : SyntaxHighlighterBase() {
     private fun getTokenColor(tokenType: IElementType): MoonColor? {
         return when (tokenType) {
             MoonTypes.KW_PACKAGE,
-            MoonTypes.KW_TYPE, MoonTypes.KW_PUBLIC, MoonTypes.KW_PRIVATE,
+            MoonTypes.KW_TYPE, MoonTypes.KW_TYPE_ALIAS,
             MoonTypes.KW_VARIANT, MoonTypes.KW_FLAGS, MoonTypes.KW_ENUM,
             MoonTypes.KW_FN, MoonTypes.KW_TEST,
             MoonTypes.KW_LET,
+                -> MoonColor.KEYWORD
 
-            -> MoonColor.KEYWORD
+            MoonTypes.KW_PUBLIC, MoonTypes.KW_PRIVATE -> MoonColor.KEYWORD
+            MoonTypes.KW_ALL, MoonTypes.KW_ALL -> MoonColor.SYM_BUILTIN
 
             MoonTypes.PARENTHESIS_L, MoonTypes.PARENTHESIS_R -> MoonColor.PARENTHESES
             MoonTypes.BRACKET_L, MoonTypes.BRACKET_R -> MoonColor.BRACKETS

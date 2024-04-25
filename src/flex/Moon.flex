@@ -45,7 +45,6 @@ KW_EXPORT      = "export"
 KW_IMPORT      = "import"
 KW_USE         = "use"
 KW_AS          = "as"
-KW_TYPE        = "type"
 KW_RESOURCE    = "resource"
 KW_RECORD      = "record"
 KW_ENUM        = "enum"
@@ -102,8 +101,10 @@ KW_FN      = "fn"
 
 
 	"<=" { return OP_LEQ; }
-	"<" { return OP_LT; }
-	">" { return OP_GT; }
+    "<<" { return OP_LL; }
+	"<"  { return OP_LT; }
+	">>" { return OP_GG; }
+	">"  { return OP_GT; }
 	">=" { return OP_GEQ; }
 
 	"||" { return OP_OR; }
@@ -123,7 +124,8 @@ KW_FN      = "fn"
 	"-" { return OP_SUB; }
 }
 <YYINITIAL> {
-	{KW_TYPE}    { return KW_TYPE; }
+	type         { return KW_TYPE; }
+    typealias    { return KW_TYPE_ALIAS; }
 
 	{KW_STRUCT}  { return KW_STRUCT; }
 	{KW_ENUM}    { return KW_ENUM; }

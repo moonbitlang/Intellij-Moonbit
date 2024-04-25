@@ -881,6 +881,33 @@ public class MoonParser implements PsiParser, LightPsiParser {
     }
 
     /* ********************************************************** */
+    // modifier* KW_TYPE_ALIAS type-expression OP_ASSIGN type-expression
+    public static boolean define_type_alias(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "define_type_alias")) return false;
+        boolean r, p;
+        Marker m = enter_section_(b, l, _NONE_, DEFINE_TYPE_ALIAS, "<define type alias>");
+        r = define_type_alias_0(b, l + 1);
+        r = r && consumeToken(b, KW_TYPE_ALIAS);
+        p = r; // pin = 2
+        r = r && report_error_(b, type_expression(b, l + 1));
+        r = p && report_error_(b, consumeToken(b, OP_ASSIGN)) && r;
+        r = p && type_expression(b, l + 1) && r;
+        exit_section_(b, l, m, r, p, null);
+        return r || p;
+    }
+
+    // modifier*
+    private static boolean define_type_alias_0(PsiBuilder b, int l) {
+        if (!recursion_guard_(b, l, "define_type_alias_0")) return false;
+        while (true) {
+            int c = current_position_(b);
+            if (!modifier(b, l + 1)) break;
+            if (!empty_element_parsed_guard_(b, "define_type_alias_0", c)) break;
+        }
+        return true;
+    }
+
+    /* ********************************************************** */
     // KW_DERIVE PARENTHESIS_L (identifier (COMMA identifier)*)? PARENTHESIS_R {
     // 	//	mixin = "com.github.bytecodealliance.language.mixin.MixinDerive"
     // }
@@ -2077,6 +2104,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
     // SEMICOLON
     //     | package
     //     | define-type
+    //     | define-type-alias
     // 	| declare-struct
     // 	| declare-enum
     // 	| declare-trait
@@ -2095,6 +2123,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
         r = consumeToken(b, SEMICOLON);
         if (!r) r = package_$(b, l + 1);
         if (!r) r = define_type(b, l + 1);
+        if (!r) r = define_type_alias(b, l + 1);
         if (!r) r = declare_struct(b, l + 1);
         if (!r) r = declare_enum(b, l + 1);
         if (!r) r = declare_trait(b, l + 1);
@@ -2325,8 +2354,8 @@ public class MoonParser implements PsiParser, LightPsiParser {
     // 	| OP_DIV | OP_DIV_ASSIGN
     // 	| OP_MOD
     // 	| OP_EQ | OP_NE
-    // 	| OP_LT | OP_LEQ
-    // 	| OP_GT | OP_GEQ
+    // 	| OP_LT | OP_LL | OP_LEQ
+    // 	| OP_GT | OP_GG | OP_GEQ
     // 	| OP_OR | OP_AND
     // 	| OP_THEN
     // 	| OP_SPREAD
@@ -2346,8 +2375,10 @@ public class MoonParser implements PsiParser, LightPsiParser {
         if (!r) r = consumeToken(b, OP_EQ);
         if (!r) r = consumeToken(b, OP_NE);
         if (!r) r = consumeToken(b, OP_LT);
+        if (!r) r = consumeToken(b, OP_LL);
         if (!r) r = consumeToken(b, OP_LEQ);
         if (!r) r = consumeToken(b, OP_GT);
+        if (!r) r = consumeToken(b, OP_GG);
         if (!r) r = consumeToken(b, OP_GEQ);
         if (!r) r = consumeToken(b, OP_OR);
         if (!r) r = consumeToken(b, OP_AND);

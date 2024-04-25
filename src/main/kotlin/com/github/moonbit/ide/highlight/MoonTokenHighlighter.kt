@@ -3,6 +3,7 @@ package com.github.moonbit.ide.highlight
 
 import com.github.bytecodealliance.ide.highlight.MoonColor
 import com.github.moonbit.psi.MoonParserDefinition
+import com.github.moonbit.psi.MoonTypes
 import com.github.moonbit.psi.MoonTypes.*
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
@@ -22,7 +23,7 @@ class MoonTokenHighlighter : SyntaxHighlighterBase() {
     private fun getTokenColor(tokenType: IElementType): MoonColor? {
         return when (tokenType) {
             KW_PACKAGE,
-            KW_TYPE,
+            KW_TYPE, KW_TYPE_ALIAS,
             KW_STRUCT,
             KW_TRAIT, KW_IMPLEMENT, KW_WITH,
             KW_VARIANT, KW_FLAGS, KW_ENUM,
@@ -34,9 +35,9 @@ class MoonTokenHighlighter : SyntaxHighlighterBase() {
             KW_RETURN, KW_CONTINUE, KW_BREAK,
                 -> MoonColor.KEYWORD
 
-            KW_PUBLIC, KW_PRIVATE,
-            KW_MUTABLE,
-                -> MoonColor.KEYWORD
+            KW_PUBLIC, KW_PRIVATE -> MoonColor.KEYWORD
+            KW_ALL, KW_ALL -> MoonColor.SYM_BUILTIN
+            KW_MUTABLE -> MoonColor.KEYWORD
 
             PARENTHESIS_L, PARENTHESIS_R -> MoonColor.PARENTHESES
             BRACKET_L, BRACKET_R -> MoonColor.BRACKETS

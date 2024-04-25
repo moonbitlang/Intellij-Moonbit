@@ -35,6 +35,7 @@ moon ::= statements*
 private statements ::= SEMICOLON
     | package
     | define-type
+    | define-type-alias
 	| declare-struct
 	| declare-enum
 	| declare-trait
@@ -89,12 +90,15 @@ private enum-element ::= SEMICOLON
 declare-variant ::= identifier;
 
 // =====================================================================================================================
-// priv type UninitializedArray[T] FixedArray[UnsafeMaybeUninit[T]]
 define-type ::= modifier* KW_TYPE OP_ERROR? type-expression type-expression? {
+	pin = 2
+}
+define-type-alias ::= modifier* KW_TYPE_ALIAS type-expression OP_ASSIGN type-expression {
 	pin = 2
 }
 type-hint ::= COLON type-expression;
 return-type ::= OP_TO type-expression (OP_ERROR type-expression)?;
+// =====================================================================================================================
 
 generic-call   ::= BRACKET_L (type-expression (COMMA type-expression)* COMMA?)? BRACKET_R;
 // resource type-name { method: func() };
@@ -224,8 +228,8 @@ term-infix  ::= OP_ASSIGN
 	| OP_DIV | OP_DIV_ASSIGN
 	| OP_MOD
 	| OP_EQ | OP_NE
-	| OP_LT | OP_LEQ
-	| OP_GT | OP_GEQ
+	| OP_LT | OP_LL | OP_LEQ
+	| OP_GT | OP_GG | OP_GEQ
 	| OP_OR | OP_AND
 	| OP_THEN
 	| OP_SPREAD
