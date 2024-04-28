@@ -1931,7 +1931,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier OP_REF? COLON type-expression (OP_ASSIGN term-expression)? {
+  // identifier (OP_REF|OP_THROW)? COLON type-expression (OP_ASSIGN term-expression)? {
   // }
   public static boolean parameter(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "parameter")) return false;
@@ -1948,11 +1948,20 @@ public class MoonParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // OP_REF?
+  // (OP_REF|OP_THROW)?
   private static boolean parameter_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "parameter_1")) return false;
-    consumeToken(b, OP_REF);
+    parameter_1_0(b, l + 1);
     return true;
+  }
+
+  // OP_REF|OP_THROW
+  private static boolean parameter_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "parameter_1_0")) return false;
+    boolean r;
+    r = consumeToken(b, OP_REF);
+    if (!r) r = consumeToken(b, OP_THROW);
+    return r;
   }
 
   // (OP_ASSIGN term-expression)?

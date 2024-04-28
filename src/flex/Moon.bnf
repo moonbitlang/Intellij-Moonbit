@@ -153,7 +153,7 @@ private function-element ::= SEMICOLON
 	| term-expression
 // =====================================================================================================================
 declare-parameters ::= PARENTHESIS_L (parameter (COMMA parameter)* COMMA?)? PARENTHESIS_R
-parameter ::= identifier OP_REF? COLON type-expression (OP_ASSIGN term-expression)? {
+parameter ::= identifier (OP_REF|OP_THROW)? COLON type-expression (OP_ASSIGN term-expression)? {
 
 }
 control-statement ::=
