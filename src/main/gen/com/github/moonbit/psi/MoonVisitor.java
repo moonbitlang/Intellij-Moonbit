@@ -35,6 +35,10 @@ public class MoonVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitCharSyntax(@NotNull MoonCharSyntax o) {
+        visitPsiElement(o);
+    }
+
     public void visitClosureParameters(@NotNull MoonClosureParameters o) {
         visitPsiElement(o);
     }
@@ -260,6 +264,10 @@ public class MoonVisitor extends PsiElementVisitor {
     }
 
     public void visitStringLiteral(@NotNull MoonStringLiteral o) {
+        visitPsiElement(o);
+    }
+
+    public void visitStringSyntax(@NotNull MoonStringSyntax o) {
         visitPsiElement(o);
     }
 

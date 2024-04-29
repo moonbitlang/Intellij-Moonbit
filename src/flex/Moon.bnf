@@ -90,7 +90,7 @@ private enum-element ::= SEMICOLON
 declare-variant ::= identifier;
 
 // =====================================================================================================================
-define-type ::= modifier* KW_TYPE OP_ERROR? type-expression type-expression? {
+define-type ::= modifier* KW_TYPE OP_ERROR? type-expression type-expression? append-derive? {
 	pin = 2
 }
 define-type-alias ::= modifier* KW_TYPE_ALIAS type-expression OP_ASSIGN type-expression {
@@ -270,21 +270,12 @@ tuple-term ::= term-expression;
 
 //   { array: self.array, start: self.start + start, end: self.start + end }
 // =====================================================================================================================
-string-literal ::= DOUBLE_QUOTE_L STRING_TEXT+ DOUBLE_QUOTE_R;
-char-literal   ::= identifier? SINGLE_QUOTE_L STRING_TEXT+ SINGLE_QUOTE_R;
+char-literal   ::= identifier? char-syntax;
+string-literal ::= identifier? string-syntax;
+string-syntax  ::= DOUBLE_QUOTE_L STRING_TEXT+ DOUBLE_QUOTE_R;
+char-syntax    ::= SINGLE_QUOTE_L STRING_TEXT+ SINGLE_QUOTE_R;
 string-lines   ::= STRING_LINE+
 number-literal ::= INTEGER | BYTES_HEX | BYTES_OCT | BYTES_BIN;
-
-
-
-private resource-element ::=
-    declare-method
-  | constructor
-  | SEMICOLON
-  | HYPHEN
-  | DOLLAR
-  | OP_PATTERN_TO
-
 
 
 
@@ -312,3 +303,13 @@ identifier          ::= SYMBOL | ESCAPED;
 identifier-free     ::= SYMBOL | KW_TEST;
 namepath            ::= identifier (NAME_JOIN identifier)*
 namepath-free       ::= identifier-free (DOT identifier-free)*
+
+
+// useless, but generating unused token
+private resource-element ::=
+    declare-method
+  | constructor
+  | SEMICOLON
+  | HYPHEN
+  | DOLLAR
+  | OP_PATTERN_TO

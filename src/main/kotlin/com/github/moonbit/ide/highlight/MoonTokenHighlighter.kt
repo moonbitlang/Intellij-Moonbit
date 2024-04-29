@@ -36,7 +36,7 @@ class MoonTokenHighlighter : SyntaxHighlighterBase() {
                 -> MoonColor.KEYWORD
 
             KW_PUBLIC, KW_PRIVATE -> MoonColor.KEYWORD
-            KW_ALL, KW_ALL -> MoonColor.SYM_BUILTIN
+            KW_ALL, KW_OPEN -> MoonColor.SYM_BUILTIN
             KW_MUTABLE -> MoonColor.KEYWORD
 
             PARENTHESIS_L, PARENTHESIS_R -> MoonColor.PARENTHESES

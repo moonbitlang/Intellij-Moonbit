@@ -28,6 +28,12 @@ public class MoonCharLiteralNode extends AnyMoonNode implements MoonCharLiteral 
     }
 
     @Override
+    @NotNull
+    public MoonCharSyntax getCharSyntax() {
+        return findNotNullChildByClass(MoonCharSyntax.class);
+    }
+
+    @Override
     @Nullable
     public MoonIdentifier getIdentifier() {
         return findChildByClass(MoonIdentifier.class);

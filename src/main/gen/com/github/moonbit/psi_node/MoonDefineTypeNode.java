@@ -28,6 +28,12 @@ public class MoonDefineTypeNode extends AnyMoonNode implements MoonDefineType {
     }
 
     @Override
+    @Nullable
+    public MoonAppendDerive getAppendDerive() {
+        return findChildByClass(MoonAppendDerive.class);
+    }
+
+    @Override
     @NotNull
     public List<MoonModifier> getModifierList() {
         return PsiTreeUtil.getChildrenOfTypeAsList(this, MoonModifier.class);
