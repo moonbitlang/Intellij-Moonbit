@@ -41,6 +41,12 @@ public class MoonTermExpressionAtomNode extends AnyMoonNode implements MoonTermE
 
     @Override
     @Nullable
+    public MoonGuardStatement getGuardStatement() {
+        return findChildByClass(MoonGuardStatement.class);
+    }
+
+    @Override
+    @Nullable
     public MoonIfStatement getIfStatement() {
         return findChildByClass(MoonIfStatement.class);
     }

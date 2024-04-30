@@ -1,6 +1,8 @@
-.gradle
 .idea
 .intellijPlatform
+.gradle
+.kotlin
 .qodana
 build
 _MoonLexer.java~
+

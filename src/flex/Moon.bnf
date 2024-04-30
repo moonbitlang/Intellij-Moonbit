@@ -47,6 +47,7 @@ private statements ::= SEMICOLON
 	| while-statement
 	| for-statement
 	| if-statement
+	| guard-statement
 	| match-statement
 
 // package wasi:blobstore@0.2.0-draft;
@@ -182,7 +183,7 @@ declare-test ::= KW_TEST string-literal? function-body {
 
 // exports: interface
 // =====================================================================================================================
-if-statement ::= (KW_IF|KW_GUARD) then-statement else-statement? {
+if-statement ::= KW_IF then-statement else-statement? {
 	pin = 1
 }
 then-statement ::= term-expression function-body {
@@ -191,6 +192,21 @@ then-statement ::= term-expression function-body {
 else-statement ::= KW_ELSE function-body {
 	pin = 1
 }
+// =====================================================================================================================
+guard-statement ::= guard-let | guard-normal {
+
+}
+guard-let ::= KW_GUARD KW_LET then-statement else-statement? {
+	pin = 2
+}
+guard-normal ::= KW_GUARD then-statement else-statement? {
+	pin = 1
+}
+// =====================================================================================================================
+
+
+
+
 match-statement ::= KW_MATCH term-expression match-body {
 	pin = 1
 }
@@ -211,6 +227,7 @@ term-expression ::= term-expression-item (term-infix term-expression-item)*;
 term-expression-item ::= term-prefix* term-expression-atom term-suffix*;
 term-expression-atom ::= PARENTHESIS_L term-expression PARENTHESIS_R
 	| if-statement
+	| guard-statement
 	| dict-literal
 	| list-literal
 	| tuple-literal

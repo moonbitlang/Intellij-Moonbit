@@ -10,6 +10,7 @@ import com.intellij.platform.lsp.api.LspServerSupportProvider.LspServerStarter
 import com.intellij.platform.lsp.api.lsWidget.LspServerWidgetItem
 
 
+@Suppress("UnstableApiUsage")
 class MoonLanguageProtocol : LspServerSupportProvider {
     override fun fileOpened(project: Project, file: VirtualFile, serverStarter: LspServerStarter) {
         if (file.fileType is MoonFileType) {
