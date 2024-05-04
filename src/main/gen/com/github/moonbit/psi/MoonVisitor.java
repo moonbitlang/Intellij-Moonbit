@@ -31,6 +31,10 @@ public class MoonVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitCallStatic(@NotNull MoonCallStatic o) {
+        visitPsiElement(o);
+    }
+
     public void visitCharLiteral(@NotNull MoonCharLiteral o) {
         visitPsiElement(o);
     }
@@ -236,10 +240,6 @@ public class MoonVisitor extends PsiElementVisitor {
     }
 
     public void visitNamepath(@NotNull MoonNamepath o) {
-        visitPsiElement(o);
-    }
-
-    public void visitNamepathFree(@NotNull MoonNamepathFree o) {
         visitPsiElement(o);
     }
 

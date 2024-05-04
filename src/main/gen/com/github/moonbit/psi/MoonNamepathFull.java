@@ -2,12 +2,13 @@
 package com.github.moonbit.psi;
 
 import java.util.List;
+
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MoonAppendDerive extends PsiElement {
+public interface MoonNamepathFull extends PsiElement {
 
     @NotNull
-    List<MoonNamepath> getNamepathList();
+    List<MoonIdentifierFree> getIdentifierFreeList();
 
 }

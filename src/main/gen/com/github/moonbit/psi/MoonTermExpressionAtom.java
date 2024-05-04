@@ -17,16 +17,16 @@ public interface MoonTermExpressionAtom extends PsiElement {
     MoonGuardStatement getGuardStatement();
 
     @Nullable
+    MoonIdentifier getIdentifier();
+
+    @Nullable
+    MoonIdentifierFree getIdentifierFree();
+
+    @Nullable
     MoonIfStatement getIfStatement();
 
     @Nullable
     MoonListLiteral getListLiteral();
-
-    @Nullable
-    MoonNamepath getNamepath();
-
-    @Nullable
-    MoonNamepathFree getNamepathFree();
 
     @Nullable
     MoonNumberLiteral getNumberLiteral();

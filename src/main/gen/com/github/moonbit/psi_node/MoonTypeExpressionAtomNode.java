@@ -29,14 +29,14 @@ public class MoonTypeExpressionAtomNode extends AnyMoonNode implements MoonTypeE
 
     @Override
     @Nullable
-    public MoonNamepath getNamepath() {
-        return findChildByClass(MoonNamepath.class);
+    public MoonIdentifier getIdentifier() {
+        return findChildByClass(MoonIdentifier.class);
     }
 
     @Override
     @Nullable
-    public MoonNamepathFree getNamepathFree() {
-        return findChildByClass(MoonNamepathFree.class);
+    public MoonIdentifierFree getIdentifierFree() {
+        return findChildByClass(MoonIdentifierFree.class);
     }
 
     @Override

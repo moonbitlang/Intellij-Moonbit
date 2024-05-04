@@ -69,7 +69,7 @@ class MoonSyntaxHighlighter : MoonVisitor(), HighlightVisitor {
 //        highlight(o.identifier, SYM_FIELD)
 //    }
     override fun visitDeclareFunction(o: MoonDeclareFunction) {
-        highlight(o.namepath?.lastChild, SYMBOL_FUNCTION)
+        highlight(o.identifierFree, SYMBOL_FUNCTION)
     }
 
 

@@ -47,6 +47,18 @@ public class MoonTermExpressionAtomNode extends AnyMoonNode implements MoonTermE
 
     @Override
     @Nullable
+    public MoonIdentifier getIdentifier() {
+        return findChildByClass(MoonIdentifier.class);
+    }
+
+    @Override
+    @Nullable
+    public MoonIdentifierFree getIdentifierFree() {
+        return findChildByClass(MoonIdentifierFree.class);
+    }
+
+    @Override
+    @Nullable
     public MoonIfStatement getIfStatement() {
         return findChildByClass(MoonIfStatement.class);
     }
@@ -55,18 +67,6 @@ public class MoonTermExpressionAtomNode extends AnyMoonNode implements MoonTermE
     @Nullable
     public MoonListLiteral getListLiteral() {
         return findChildByClass(MoonListLiteral.class);
-    }
-
-    @Override
-    @Nullable
-    public MoonNamepath getNamepath() {
-        return findChildByClass(MoonNamepath.class);
-    }
-
-    @Override
-    @Nullable
-    public MoonNamepathFree getNamepathFree() {
-        return findChildByClass(MoonNamepathFree.class);
     }
 
     @Override

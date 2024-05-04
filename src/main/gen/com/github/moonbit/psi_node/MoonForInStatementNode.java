@@ -23,26 +23,26 @@ public class MoonForInStatementNode extends AnyMoonNode implements MoonForInStat
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
-      if (visitor instanceof MoonVisitor) accept((MoonVisitor) visitor);
-      else super.accept(visitor);
+    if (visitor instanceof MoonVisitor) accept((MoonVisitor) visitor);
+    else super.accept(visitor);
   }
 
-    @Override
-    @NotNull
-    public MoonFunctionBody getFunctionBody() {
-        return findNotNullChildByClass(MoonFunctionBody.class);
-    }
+  @Override
+  @NotNull
+  public MoonFunctionBody getFunctionBody() {
+    return findNotNullChildByClass(MoonFunctionBody.class);
+  }
 
-    @Override
-    @NotNull
-    public MoonIdentifier getIdentifier() {
-        return findNotNullChildByClass(MoonIdentifier.class);
-    }
+  @Override
+  @NotNull
+  public MoonIdentifier getIdentifier() {
+    return findNotNullChildByClass(MoonIdentifier.class);
+  }
 
-    @Override
-    @NotNull
-    public MoonTermExpression getTermExpression() {
-        return findNotNullChildByClass(MoonTermExpression.class);
-    }
+  @Override
+  @NotNull
+  public MoonTermExpression getTermExpression() {
+    return findNotNullChildByClass(MoonTermExpression.class);
+  }
 
 }

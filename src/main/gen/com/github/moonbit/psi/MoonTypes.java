@@ -14,7 +14,8 @@ public interface MoonTypes {
   IElementType CALL_INDEX = new MoonElementType("CALL_INDEX");
   IElementType CALL_METHOD = new MoonElementType("CALL_METHOD");
   IElementType CALL_SLICE = new MoonElementType("CALL_SLICE");
-  IElementType CHAR_LITERAL = new MoonElementType("CHAR_LITERAL");
+    IElementType CALL_STATIC = new MoonElementType("CALL_STATIC");
+    IElementType CHAR_LITERAL = new MoonElementType("CHAR_LITERAL");
     IElementType CHAR_SYNTAX = new MoonElementType("CHAR_SYNTAX");
     IElementType CLOSURE_PARAMETERS = new MoonElementType("CLOSURE_PARAMETERS");
     IElementType CONTROL_STATEMENT = new MoonElementType("CONTROL_STATEMENT");
@@ -66,7 +67,6 @@ public interface MoonTypes {
     IElementType MODIFIER = new MoonElementType("MODIFIER");
     IElementType MODULE_NAME = new MoonElementType("MODULE_NAME");
     IElementType NAMEPATH = new MoonElementType("NAMEPATH");
-    IElementType NAMEPATH_FREE = new MoonElementType("NAMEPATH_FREE");
     IElementType NUMBER_LITERAL = new MoonElementType("NUMBER_LITERAL");
     IElementType PACKAGE = new MoonElementType("PACKAGE");
     IElementType PACKAGE_NAME = new MoonElementType("PACKAGE_NAME");
@@ -209,6 +209,8 @@ public interface MoonTypes {
                 return new MoonCallMethodNode(node);
             } else if (type == CALL_SLICE) {
                 return new MoonCallSliceNode(node);
+            } else if (type == CALL_STATIC) {
+                return new MoonCallStaticNode(node);
             } else if (type == CHAR_LITERAL) {
                 return new MoonCharLiteralNode(node);
             } else if (type == CHAR_SYNTAX) {
@@ -313,8 +315,6 @@ public interface MoonTypes {
                 return new MoonModuleNameNode(node);
             } else if (type == NAMEPATH) {
                 return new MoonNamepathNode(node);
-            } else if (type == NAMEPATH_FREE) {
-                return new MoonNamepathFreeNode(node);
             } else if (type == NUMBER_LITERAL) {
                 return new MoonNumberLiteralNode(node);
             } else if (type == PACKAGE) {

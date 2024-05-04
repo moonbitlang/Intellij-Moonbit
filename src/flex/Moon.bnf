@@ -60,7 +60,7 @@ package-name ::= module-name (COLON module-name)* package-version?;
 package-version ::= AT VERSION;
 
 // =====================================================================================================================
-append-derive ::= KW_DERIVE PARENTHESIS_L (identifier (COMMA identifier)*)? PARENTHESIS_R {
+append-derive ::= KW_DERIVE PARENTHESIS_L (namepath (COMMA namepath)*)? PARENTHESIS_R {
 	//	mixin = "com.github.bytecodealliance.language.mixin.MixinDerive"
 }
 // =====================================================================================================================
@@ -134,7 +134,7 @@ let-statement ::= modifier? KW_LET KW_MUTABLE? identifier type-hint? OP_ASSIGN t
 //    mixin = "com.github.bytecodealliance.language.mixin.MixinWorld"
 }
 // =====================================================================================================================
-declare-function ::= modifier* function-extern? KW_FN namepath declare-generic? declare-parameters return-type? (function-body | function-inline) {
+declare-function ::= modifier* function-extern? KW_FN identifier-free declare-generic? declare-parameters return-type? (function-body | function-inline) {
 //	pin = 3
 //    mixin = "com.github.bytecodealliance.language.mixin.MixinInterface"
 }
@@ -238,8 +238,8 @@ term-expression-atom ::= PARENTHESIS_L term-expression PARENTHESIS_R
 	| string-lines
 	| char-literal
 	| number-literal
-	| AT namepath-free
-	| namepath
+	| AT identifier-free
+	| identifier
 term-prefix ::= OP_ADD | OP_SUB | OP_REF;
 term-infix  ::= OP_ASSIGN
 	| OP_ADD | OP_ADD_ASSIGN
@@ -258,6 +258,7 @@ term-infix  ::= OP_ASSIGN
 	| OP_RANGE_TO
 term-suffix   ::= OP_THROW
 	| call-function
+	| call-static
 	| call-method
 	| call-field
 	| call-index
@@ -265,6 +266,7 @@ term-suffix   ::= OP_THROW
 	| OP_REF
 call-function ::= errorable? PARENTHESIS_L (term-expression (COMMA term-expression)* COMMA?)? PARENTHESIS_R;
 errorable ::= OP_ERROR | OP_THROW;
+call-static   ::= NAME_JOIN call-function
 call-method   ::= DOT call-function
 call-field    ::= DOT identifier
 call-index    ::= DOT INTEGER
@@ -273,8 +275,8 @@ call-slice    ::= BRACKET_L term-expression (COMMA term-expression)* BRACKET_R;
 type-expression ::= type-expression-item (type-infix type-expression-item)*;
 type-expression-item ::= type-prefix* type-expression-atom type-suffix*;
 type-expression-atom ::= PARENTHESIS_L type-expression PARENTHESIS_R
-	| AT namepath-free
-	| namepath
+	| AT identifier-free
+	| identifier
 type-prefix ::= OP_ADD;
 type-infix  ::= OP_ADD | OP_TO;
 type-suffix ::= generic-call | OP_THROW;
@@ -323,9 +325,9 @@ module-name         ::= SYMBOL | ESCAPED;
 semantic-number     ::= SYMBOL | ESCAPED;
 identifier          ::= SYMBOL | ESCAPED;
 identifier-free     ::= SYMBOL | KW_TEST;
-namepath            ::= identifier (NAME_JOIN identifier)*
-namepath-free       ::= identifier-free (DOT identifier-free)*
 
+// @moonbitlang/core/byte.to_uint64
+namepath       ::= AT identifier-free (OP_DIV identifier-free)* (DOT identifier-free)?;
 
 // useless, but generating unused token
 private resource-element ::=

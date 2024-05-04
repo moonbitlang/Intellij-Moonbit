@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 public interface MoonTypeExpressionAtom extends PsiElement {
 
     @Nullable
-    MoonNamepath getNamepath();
+    MoonIdentifier getIdentifier();
 
     @Nullable
-    MoonNamepathFree getNamepathFree();
+    MoonIdentifierFree getIdentifierFree();
 
     @Nullable
     MoonTypeExpression getTypeExpression();

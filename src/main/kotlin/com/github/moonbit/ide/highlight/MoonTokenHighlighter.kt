@@ -24,6 +24,7 @@ class MoonTokenHighlighter : SyntaxHighlighterBase() {
         return when (tokenType) {
             KW_PACKAGE,
             KW_TYPE, KW_TYPE_ALIAS,
+            KW_DERIVE,
             KW_STRUCT,
             KW_TRAIT, KW_IMPLEMENT, KW_WITH,
             KW_VARIANT, KW_FLAGS, KW_ENUM,

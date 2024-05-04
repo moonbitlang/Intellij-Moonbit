@@ -59,14 +59,14 @@ public class MoonDeclareFunctionNode extends AnyMoonNode implements MoonDeclareF
 
     @Override
     @NotNull
-    public List<MoonModifier> getModifierList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, MoonModifier.class);
+    public MoonIdentifierFree getIdentifierFree() {
+        return findNotNullChildByClass(MoonIdentifierFree.class);
     }
 
     @Override
     @NotNull
-    public MoonNamepath getNamepath() {
-        return findNotNullChildByClass(MoonNamepath.class);
+    public List<MoonModifier> getModifierList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, MoonModifier.class);
     }
 
     @Override
