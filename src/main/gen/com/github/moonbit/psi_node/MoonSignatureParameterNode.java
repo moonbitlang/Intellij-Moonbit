@@ -29,8 +29,8 @@ public class MoonSignatureParameterNode extends AnyMoonNode implements MoonSigna
 
     @Override
     @NotNull
-    public List<MoonIdentifier> getIdentifierList() {
-        return PsiTreeUtil.getChildrenOfTypeAsList(this, MoonIdentifier.class);
+    public List<MoonNamepath> getNamepathList() {
+        return PsiTreeUtil.getChildrenOfTypeAsList(this, MoonNamepath.class);
     }
 
 }

@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface MoonTraitBody extends PsiElement {
 
-    @NotNull
-    List<MoonDeclareSignature> getDeclareSignatureList();
+  @NotNull
+  List<MoonDeclareSignature> getDeclareSignatureList();
 
 }

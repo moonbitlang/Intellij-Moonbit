@@ -13,30 +13,30 @@ import com.github.moonbit.psi.*;
 
 public class MoonWhileStatementNode extends AnyMoonNode implements MoonWhileStatement {
 
-    public MoonWhileStatementNode(@NotNull ASTNode node) {
-        super(node);
-    }
+  public MoonWhileStatementNode(@NotNull ASTNode node) {
+    super(node);
+  }
 
-    public void accept(@NotNull MoonVisitor visitor) {
-        visitor.visitWhileStatement(this);
-    }
+  public void accept(@NotNull MoonVisitor visitor) {
+    visitor.visitWhileStatement(this);
+  }
 
-    @Override
-    public void accept(@NotNull PsiElementVisitor visitor) {
-        if (visitor instanceof MoonVisitor) accept((MoonVisitor) visitor);
-        else super.accept(visitor);
-    }
+  @Override
+  public void accept(@NotNull PsiElementVisitor visitor) {
+    if (visitor instanceof MoonVisitor) accept((MoonVisitor) visitor);
+    else super.accept(visitor);
+  }
 
-    @Override
-    @Nullable
-    public MoonFunctionBody getFunctionBody() {
-        return findChildByClass(MoonFunctionBody.class);
-    }
+  @Override
+  @Nullable
+  public MoonFunctionBody getFunctionBody() {
+    return findChildByClass(MoonFunctionBody.class);
+  }
 
-    @Override
-    @Nullable
-    public MoonTermExpression getTermExpression() {
-        return findChildByClass(MoonTermExpression.class);
-    }
+  @Override
+  @Nullable
+  public MoonTermExpression getTermExpression() {
+    return findChildByClass(MoonTermExpression.class);
+  }
 
 }

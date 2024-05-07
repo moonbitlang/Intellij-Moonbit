@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface MoonSignatureParameter extends PsiElement {
 
     @NotNull
-    List<MoonIdentifier> getIdentifierList();
+    List<MoonNamepath> getNamepathList();
 
 }

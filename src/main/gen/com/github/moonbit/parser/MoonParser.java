@@ -2250,7 +2250,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // PARENTHESIS_L (identifier (COMMA identifier)* COMMA?)? PARENTHESIS_R
+  // PARENTHESIS_L (namepath (COMMA namepath)* COMMA?)? PARENTHESIS_R
   public static boolean signature_parameter(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "signature_parameter")) return false;
     if (!nextTokenIs(b, PARENTHESIS_L)) return false;
@@ -2263,26 +2263,26 @@ public class MoonParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (identifier (COMMA identifier)* COMMA?)?
+  // (namepath (COMMA namepath)* COMMA?)?
   private static boolean signature_parameter_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "signature_parameter_1")) return false;
     signature_parameter_1_0(b, l + 1);
     return true;
   }
 
-  // identifier (COMMA identifier)* COMMA?
+  // namepath (COMMA namepath)* COMMA?
   private static boolean signature_parameter_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "signature_parameter_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
+    r = namepath(b, l + 1);
     r = r && signature_parameter_1_0_1(b, l + 1);
     r = r && signature_parameter_1_0_2(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // (COMMA identifier)*
+  // (COMMA namepath)*
   private static boolean signature_parameter_1_0_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "signature_parameter_1_0_1")) return false;
     while (true) {
@@ -2293,13 +2293,13 @@ public class MoonParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // COMMA identifier
+  // COMMA namepath
   private static boolean signature_parameter_1_0_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "signature_parameter_1_0_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COMMA);
-    r = r && identifier(b, l + 1);
+    r = r && namepath(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
