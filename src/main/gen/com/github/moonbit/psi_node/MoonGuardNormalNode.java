@@ -35,8 +35,8 @@ public class MoonGuardNormalNode extends AnyMoonNode implements MoonGuardNormal 
 
     @Override
     @Nullable
-    public MoonThenStatement getThenStatement() {
-        return findChildByClass(MoonThenStatement.class);
+    public MoonTermExpression getTermExpression() {
+        return findChildByClass(MoonTermExpression.class);
     }
 
 }

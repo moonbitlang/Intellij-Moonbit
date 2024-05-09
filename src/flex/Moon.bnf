@@ -203,10 +203,10 @@ else-statement ::= KW_ELSE function-body {
 guard-statement ::= guard-let | guard-normal {
 
 }
-guard-let ::= KW_GUARD KW_LET then-statement else-statement? {
+guard-let ::= KW_GUARD KW_LET identifier-free OP_ASSIGN term-expression else-statement? {
 	pin = 2
 }
-guard-normal ::= KW_GUARD then-statement else-statement? {
+guard-normal ::= KW_GUARD term-expression else-statement? {
 	pin = 1
 }
 // =====================================================================================================================
@@ -270,7 +270,7 @@ term-suffix   ::= OP_THROW
 	| OP_REF
 call-function ::= throwable? PARENTHESIS_L (term-expression (COMMA term-expression)* COMMA?)? PARENTHESIS_R;
 throwable ::= OP_ERROR | OP_THROW;
-call-static   ::= NAME_JOIN identifier-free call-function
+call-static   ::= NAME_JOIN identifier-free call-function?
 call-method   ::= DOT identifier-free call-function
 call-field    ::= DOT identifier
 call-index    ::= DOT INTEGER

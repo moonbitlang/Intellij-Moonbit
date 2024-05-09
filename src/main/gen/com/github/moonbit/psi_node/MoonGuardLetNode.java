@@ -35,8 +35,14 @@ public class MoonGuardLetNode extends AnyMoonNode implements MoonGuardLet {
 
     @Override
     @Nullable
-    public MoonThenStatement getThenStatement() {
-        return findChildByClass(MoonThenStatement.class);
+    public MoonIdentifierFree getIdentifierFree() {
+        return findChildByClass(MoonIdentifierFree.class);
+    }
+
+    @Override
+    @Nullable
+    public MoonTermExpression getTermExpression() {
+        return findChildByClass(MoonTermExpression.class);
     }
 
 }

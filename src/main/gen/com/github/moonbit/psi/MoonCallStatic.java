@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface MoonCallStatic extends PsiElement {
 
-  @NotNull
+  @Nullable
   MoonCallFunction getCallFunction();
 
   @NotNull

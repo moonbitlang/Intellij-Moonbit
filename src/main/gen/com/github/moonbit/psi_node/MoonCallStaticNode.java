@@ -28,9 +28,9 @@ public class MoonCallStaticNode extends AnyMoonNode implements MoonCallStatic {
     }
 
     @Override
-    @NotNull
+    @Nullable
     public MoonCallFunction getCallFunction() {
-        return findNotNullChildByClass(MoonCallFunction.class);
+        return findChildByClass(MoonCallFunction.class);
     }
 
     @Override

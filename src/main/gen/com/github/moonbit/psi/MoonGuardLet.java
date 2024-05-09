@@ -11,6 +11,9 @@ public interface MoonGuardLet extends PsiElement {
     MoonElseStatement getElseStatement();
 
     @Nullable
-    MoonThenStatement getThenStatement();
+    MoonIdentifierFree getIdentifierFree();
+
+    @Nullable
+    MoonTermExpression getTermExpression();
 
 }

@@ -245,7 +245,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // NAME_JOIN identifier-free call-function
+  // NAME_JOIN identifier-free call-function?
   public static boolean call_static(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "call_static")) return false;
     if (!nextTokenIs(b, NAME_JOIN)) return false;
@@ -253,9 +253,16 @@ public class MoonParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, NAME_JOIN);
     r = r && identifier_free(b, l + 1);
-    r = r && call_function(b, l + 1);
+    r = r && call_static_2(b, l + 1);
     exit_section_(b, m, CALL_STATIC, r);
     return r;
+  }
+
+  // call-function?
+  private static boolean call_static_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "call_static_2")) return false;
+    call_function(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -1522,7 +1529,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_GUARD KW_LET then-statement else-statement?
+  // KW_GUARD KW_LET identifier-free OP_ASSIGN term-expression else-statement?
   public static boolean guard_let(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "guard_let")) return false;
     if (!nextTokenIs(b, KW_GUARD)) return false;
@@ -1530,21 +1537,23 @@ public class MoonParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, GUARD_LET, null);
     r = consumeTokens(b, 2, KW_GUARD, KW_LET);
     p = r; // pin = 2
-    r = r && report_error_(b, then_statement(b, l + 1));
-    r = p && guard_let_3(b, l + 1) && r;
+    r = r && report_error_(b, identifier_free(b, l + 1));
+    r = p && report_error_(b, consumeToken(b, OP_ASSIGN)) && r;
+    r = p && report_error_(b, term_expression(b, l + 1)) && r;
+    r = p && guard_let_5(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
   // else-statement?
-  private static boolean guard_let_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "guard_let_3")) return false;
+  private static boolean guard_let_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "guard_let_5")) return false;
     else_statement(b, l + 1);
     return true;
   }
 
   /* ********************************************************** */
-  // KW_GUARD then-statement else-statement?
+  // KW_GUARD term-expression else-statement?
   public static boolean guard_normal(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "guard_normal")) return false;
     if (!nextTokenIs(b, KW_GUARD)) return false;
@@ -1552,7 +1561,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, GUARD_NORMAL, null);
     r = consumeToken(b, KW_GUARD);
     p = r; // pin = 1
-    r = r && report_error_(b, then_statement(b, l + 1));
+    r = r && report_error_(b, term_expression(b, l + 1));
     r = p && guard_normal_2(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;

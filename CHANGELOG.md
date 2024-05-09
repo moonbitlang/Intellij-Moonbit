@@ -4,9 +4,9 @@
 
 ## [0.1.1]
 
-### Fix
+### Added
 
-- Fix example in highlight configuration
+- Support `guard`, `guard-let`, `guard-else` statements
 
 ## [0.1.0]
 
