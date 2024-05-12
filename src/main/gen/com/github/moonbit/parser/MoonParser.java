@@ -1111,16 +1111,33 @@ public class MoonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier COLON term-expression
+  // identifier (COLON term-expression)?
   public static boolean dict_term(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "dict_term")) return false;
     if (!nextTokenIs(b, "<dict term>", ESCAPED, SYMBOL)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, DICT_TERM, "<dict term>");
     r = identifier(b, l + 1);
-    r = r && consumeToken(b, COLON);
-    r = r && term_expression(b, l + 1);
+    r = r && dict_term_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (COLON term-expression)?
+  private static boolean dict_term_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_term_1")) return false;
+    dict_term_1_0(b, l + 1);
+    return true;
+  }
+
+  // COLON term-expression
+  private static boolean dict_term_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_term_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COLON);
+    r = r && term_expression(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 

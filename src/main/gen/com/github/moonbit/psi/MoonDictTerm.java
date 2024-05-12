@@ -10,7 +10,7 @@ public interface MoonDictTerm extends PsiElement {
     @NotNull
     MoonIdentifier getIdentifier();
 
-    @NotNull
+    @Nullable
     MoonTermExpression getTermExpression();
 
 }

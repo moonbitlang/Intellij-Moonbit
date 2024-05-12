@@ -7,6 +7,7 @@
 ### Added
 
 - Support `guard`, `guard-let`, `guard-else` statements
+- Support `::{ }` syntax
 
 ## [0.1.0]
 

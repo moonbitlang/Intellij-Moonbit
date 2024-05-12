@@ -34,9 +34,9 @@ public class MoonDictTermNode extends AnyMoonNode implements MoonDictTerm {
     }
 
     @Override
-    @NotNull
+    @Nullable
     public MoonTermExpression getTermExpression() {
-        return findNotNullChildByClass(MoonTermExpression.class);
+        return findChildByClass(MoonTermExpression.class);
     }
 
 }

@@ -288,7 +288,7 @@ type-infix  ::= OP_ADD | OP_TO;
 type-suffix ::= generic-call | OP_THROW;
 // =====================================================================================================================
 dict-literal ::= BRACE_L (dict-term (COMMA dict-term)* COMMA?)? BRACE_R
-dict-term ::= identifier COLON term-expression;
+dict-term ::= identifier (COLON term-expression)?;
 // =====================================================================================================================
 list-literal ::= BRACKET_L (list-term (COMMA list-term)* COMMA?)? BRACKET_R type-hint?
 list-term ::= OP_SPREAD? term-expression;
