@@ -98,7 +98,7 @@ define-type-alias ::= modifier* KW_TYPE_ALIAS type-expression OP_ASSIGN type-exp
 	pin = 2
 }
 type-hint ::= COLON type-expression;
-return-type ::= OP_TO type-expression (OP_ERROR type-expression)?;
+return-type ::= OP_TO type-expression OP_ERROR? type-expression?;
 // =====================================================================================================================
 
 generic-call   ::= BRACKET_L (type-expression (COMMA type-expression)* COMMA?)? BRACKET_R;
