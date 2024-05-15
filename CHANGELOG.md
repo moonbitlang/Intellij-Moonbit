@@ -2,18 +2,24 @@
 
 # Moon-Intellij Changelog
 
+## [0.1.2]
+
+### Added
+
 ## [0.1.1]
 
 ### Added
 
 - Support `guard`, `guard-let`, `guard-else` statements
 - Support `::{ }` syntax
+- Highlight `trait` color
+- Highlight `impl-trait`, `impl-for`, `impl-with` color
 
 ## [0.1.0]
 
 ### Added
 
-- Support wit language server protocol
+- Support `moon-lsp` language server protocol
 
 ## [0.0.5]
 

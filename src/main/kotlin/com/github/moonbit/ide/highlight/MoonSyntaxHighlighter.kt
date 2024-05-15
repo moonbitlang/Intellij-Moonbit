@@ -48,6 +48,21 @@ class MoonSyntaxHighlighter : MoonVisitor(), HighlightVisitor {
         highlight(o.identifier, SYMBOL_TRAIT)
     }
 
+    override fun visitDeclareImpl(o: MoonDeclareImpl) {
+        highlight(o.namepath?.lastChild, SYMBOL_TRAIT)
+    }
+
+    override fun visitImplFor(o: MoonImplFor) {
+        highlight(o.identifierFree, SYMBOL_CLASS)
+    }
+
+    override fun visitImplWith(o: MoonImplWith) {
+        highlight(o.identifierFree, SYMBOL_FUNCTION)
+    }
+
+    override fun visitSignatureArguments(o: MoonSignatureArguments) {
+        o.identifierFreeList.forEach { highlight(it, SYMBOL_FIELD) }
+    }
 
     //    override fun visitEnum(o: WitEnum) {
 //        o.identifier?.let { highlight(it, NUMBER) }

@@ -17,6 +17,6 @@ public interface MoonImplWith extends PsiElement {
   MoonReturnType getReturnType();
 
   @Nullable
-  MoonSignatureParameter getSignatureParameter();
+  MoonSignatureArguments getSignatureArguments();
 
 }

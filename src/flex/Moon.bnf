@@ -119,7 +119,7 @@ declare-signature ::= modifier? identifier declare-generic? signature-parameter 
 
 }
 signature-parameter ::= PARENTHESIS_L (namepath (COMMA namepath)* COMMA?)? PARENTHESIS_R
-
+signature-arguments ::= PARENTHESIS_L (identifier-free (COMMA identifier-free)* COMMA?)? PARENTHESIS_R
 // pub impl Hash for Bool with hash(self) { self.to_int() }
 // =====================================================================================================================
 declare-impl ::= modifier* KW_IMPLEMENT declare-generic? namepath impl-for impl-with {
@@ -128,7 +128,7 @@ declare-impl ::= modifier* KW_IMPLEMENT declare-generic? namepath impl-for impl-
 impl-for   ::= KW_FOR identifier-free generic-call? {
 	pin = 1
 }
-impl-with  ::= KW_WITH identifier-free signature-parameter return-type? function-body {
+impl-with  ::= KW_WITH identifier-free signature-arguments return-type? function-body {
 	pin = 1
 }
 // =====================================================================================================================

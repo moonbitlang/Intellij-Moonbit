@@ -279,6 +279,10 @@ public class MoonVisitor extends PsiElementVisitor {
         visitPsiElement(o);
     }
 
+    public void visitSignatureArguments(@NotNull MoonSignatureArguments o) {
+        visitPsiElement(o);
+    }
+
     public void visitSignatureParameter(@NotNull MoonSignatureParameter o) {
         visitPsiElement(o);
     }

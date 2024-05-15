@@ -1719,7 +1719,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_WITH identifier-free signature-parameter return-type? function-body
+  // KW_WITH identifier-free signature-arguments return-type? function-body
   public static boolean impl_with(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "impl_with")) return false;
     if (!nextTokenIs(b, KW_WITH)) return false;
@@ -1728,7 +1728,7 @@ public class MoonParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, KW_WITH);
     p = r; // pin = 1
     r = r && report_error_(b, identifier_free(b, l + 1));
-    r = p && report_error_(b, signature_parameter(b, l + 1)) && r;
+    r = p && report_error_(b, signature_arguments(b, l + 1)) && r;
     r = p && report_error_(b, impl_with_3(b, l + 1)) && r;
     r = p && function_body(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
@@ -2272,6 +2272,68 @@ public class MoonParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, ESCAPED);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  /* ********************************************************** */
+  // PARENTHESIS_L (identifier-free (COMMA identifier-free)* COMMA?)? PARENTHESIS_R
+  public static boolean signature_arguments(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "signature_arguments")) return false;
+    if (!nextTokenIs(b, PARENTHESIS_L)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, PARENTHESIS_L);
+    r = r && signature_arguments_1(b, l + 1);
+    r = r && consumeToken(b, PARENTHESIS_R);
+    exit_section_(b, m, SIGNATURE_ARGUMENTS, r);
+    return r;
+  }
+
+  // (identifier-free (COMMA identifier-free)* COMMA?)?
+  private static boolean signature_arguments_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "signature_arguments_1")) return false;
+    signature_arguments_1_0(b, l + 1);
+    return true;
+  }
+
+  // identifier-free (COMMA identifier-free)* COMMA?
+  private static boolean signature_arguments_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "signature_arguments_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = identifier_free(b, l + 1);
+    r = r && signature_arguments_1_0_1(b, l + 1);
+    r = r && signature_arguments_1_0_2(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (COMMA identifier-free)*
+  private static boolean signature_arguments_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "signature_arguments_1_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!signature_arguments_1_0_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "signature_arguments_1_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA identifier-free
+  private static boolean signature_arguments_1_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "signature_arguments_1_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && identifier_free(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // COMMA?
+  private static boolean signature_arguments_1_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "signature_arguments_1_0_2")) return false;
+    consumeToken(b, COMMA);
+    return true;
   }
 
   /* ********************************************************** */

@@ -76,6 +76,7 @@ public interface MoonTypes {
     IElementType PARAMETER = new MoonElementType("PARAMETER");
     IElementType RETURN_TYPE = new MoonElementType("RETURN_TYPE");
     IElementType SEMANTIC_NUMBER = new MoonElementType("SEMANTIC_NUMBER");
+    IElementType SIGNATURE_ARGUMENTS = new MoonElementType("SIGNATURE_ARGUMENTS");
     IElementType SIGNATURE_PARAMETER = new MoonElementType("SIGNATURE_PARAMETER");
     IElementType STRING_LINES = new MoonElementType("STRING_LINES");
     IElementType STRING_LITERAL = new MoonElementType("STRING_LITERAL");
@@ -336,6 +337,8 @@ public interface MoonTypes {
                 return new MoonReturnTypeNode(node);
             } else if (type == SEMANTIC_NUMBER) {
                 return new MoonSemanticNumberNode(node);
+            } else if (type == SIGNATURE_ARGUMENTS) {
+                return new MoonSignatureArgumentsNode(node);
             } else if (type == SIGNATURE_PARAMETER) {
                 return new MoonSignatureParameterNode(node);
             } else if (type == STRING_LINES) {
