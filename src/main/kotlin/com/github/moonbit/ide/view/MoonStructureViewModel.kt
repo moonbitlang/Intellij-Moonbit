@@ -1,4 +1,4 @@
-package com.github.bytecodealliance.ide.view
+package com.github.moonbit.ide.view
 
 
 import com.github.moonbit.psi.MoonPackage
@@ -8,8 +8,8 @@ import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.util.treeView.smartTree.Sorter
 import com.intellij.psi.PsiFile
 
-class WitStructureViewModel(psiFile: PsiFile?) :
-    StructureViewModelBase(psiFile!!, WitStructureViewElement(psiFile)),
+class MoonStructureViewModel(psiFile: PsiFile?) :
+    StructureViewModelBase(psiFile!!, MoonStructureViewElement(psiFile)),
     StructureViewModel.ElementInfoProvider {
     override fun getSorters(): Array<Sorter> {
         return arrayOf(Sorter.ALPHA_SORTER)

@@ -1,6 +1,6 @@
 package com.github.moonbit.mixin
 
-import com.github.bytecodealliance.ide.view.MoonItemPresentation
+import com.github.moonbit.ide.view.MoonItemPresentation
 import com.github.moonbit.psi.MbtiDeclareTrait
 import com.github.moonbit.psi.MoonDeclareTrait
 import com.intellij.extapi.psi.ASTWrapperPsiElement

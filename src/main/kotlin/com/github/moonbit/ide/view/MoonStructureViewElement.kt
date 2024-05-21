@@ -1,4 +1,4 @@
-package com.github.bytecodealliance.ide.view
+package com.github.moonbit.ide.view
 
 import com.github.moonbit.file.MoonFile
 import com.intellij.ide.projectView.PresentationData
@@ -9,7 +9,7 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.util.PsiTreeUtil
 
-class WitStructureViewElement(private val node: NavigatablePsiElement) :
+class MoonStructureViewElement(private val node: NavigatablePsiElement) :
     StructureViewTreeElement,
     SortableTreeElement {
     override fun getValue(): Any {
@@ -78,9 +78,9 @@ class WitStructureViewElement(private val node: NavigatablePsiElement) :
         )
     }
 
-    private fun getChildOfType(vararg classes: Class<out NavigatablePsiElement>): Array<WitStructureViewElement> {
+    private fun getChildOfType(vararg classes: Class<out NavigatablePsiElement>): Array<MoonStructureViewElement> {
         return PsiTreeUtil.getChildrenOfAnyType(node, *classes)
-            .map { WitStructureViewElement(it) }
+            .map { MoonStructureViewElement(it) }
             .toTypedArray()
     }
 }

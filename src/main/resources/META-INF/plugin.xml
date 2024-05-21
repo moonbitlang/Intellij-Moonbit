@@ -46,7 +46,7 @@
 		<highlightVisitor implementation="com.github.moonbit.ide.highlight.MbtiHighlightVisitor"/>
 		<!-- StructureView -->
 		<lang.psiStructureViewFactory language="moonbit"
-		                              implementationClass="com.github.bytecodealliance.ide.view.WitStructureViewFactory"/>
+		                              implementationClass="com.github.moonbit.ide.view.MoonStructureViewer"/>
 		<projectViewNestingRulesProvider implementation="com.github.moonbit.file.MoonFileGroup"/>
 
 

@@ -1,4 +1,4 @@
-package com.github.bytecodealliance.ide.view
+package com.github.moonbit.ide.view
 
 import com.intellij.navigation.ItemPresentation
 import javax.swing.Icon
