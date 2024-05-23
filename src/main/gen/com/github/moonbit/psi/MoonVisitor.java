@@ -1,9 +1,9 @@
 // This is a generated file. Not intended for manual editing.
 package com.github.moonbit.psi;
 
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
+import org.jetbrains.annotations.*;
 
 public class MoonVisitor extends PsiElementVisitor {
 

@@ -83,12 +83,12 @@ declare-enum ::= modifier* KW_ENUM identifier declare-generic? enum-body append-
 	pin = 2
 }
 enum-body ::= BRACE_L enum-element* BRACE_R
-private enum-element ::= SEMICOLON
+private enum-element ::= COMMA
 	| declare-variant
-	| declare-field
-	| declare-method
+//	| declare-field
+//	| declare-method
 
-declare-variant ::= identifier;
+declare-variant ::= identifier declare-parameters?;
 
 // =====================================================================================================================
 define-type ::= modifier* KW_TYPE OP_ERROR? type-expression type-expression? append-derive? {

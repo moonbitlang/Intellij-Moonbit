@@ -1,14 +1,14 @@
 // This is a generated file. Not intended for manual editing.
 package com.github.moonbit.psi;
 
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.PsiElement;
-import com.intellij.lang.ASTNode;
 import com.github.moonbit.psi_node.*;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.tree.IElementType;
 
 public interface MoonTypes {
 
-  IElementType APPEND_DERIVE = new MoonElementType("APPEND_DERIVE");
+    IElementType APPEND_DERIVE = new MoonElementType("APPEND_DERIVE");
     IElementType CALL_DICT = new MoonElementType("CALL_DICT");
     IElementType CALL_FIELD = new MoonElementType("CALL_FIELD");
     IElementType CALL_FUNCTION = new MoonElementType("CALL_FUNCTION");

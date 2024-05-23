@@ -14,7 +14,7 @@ IntelliJ-based IDEs, supports the `*.mbt` file extension.
 | Pretty Formatter   | ✅        | [MoonFormatBuilder](https://github.com/moonbitlang/Intellij-Moonbit/blob/dev/src/main/kotlin/com/github/moonbit/ide/formatter/MoonFormatBuilder.kt)         |
 | Structure View     | ✅        | [MoonStructureViewer](https://github.com/moonbitlang/Intellij-Moonbit/blob/dev/src/main/kotlin/com/github/moonbit/ide/view/MoonStructureViewer.kt)          |
 | Block Folding      | ✅        | [MoonFoldingVisitor](https://github.com/oovm/WIT-Intellij/blob/main/src/main/kotlin/com/github/bytecodealliance/ide/matcher/WitFoldingVisitor.kt)           |
-| Braces Matcher     | ✅        |                                                                                                                                                             |
+| Braces Matcher     | ✅        | [MoonMatcher]()                                                                                                                                             |
 | Smart Enter        | ✅        | [MoonSmartEnter]()                                                                                                                                          |
 
 <!-- Plugin description end -->

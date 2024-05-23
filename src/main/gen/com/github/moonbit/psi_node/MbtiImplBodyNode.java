@@ -1,18 +1,16 @@
 // This is a generated file. Not intended for manual editing.
 package com.github.moonbit.psi_node;
 
-import java.util.List;
-
-import org.jetbrains.annotations.*;
+import com.github.moonbit.psi.AnyMbtiNode;
+import com.github.moonbit.psi.MbtiDeclareMethod;
+import com.github.moonbit.psi.MbtiImplBody;
+import com.github.moonbit.psi.MbtiVisitor;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
+import org.jetbrains.annotations.*;
 
-import static com.github.moonbit.psi.MbtiTypes.*;
-
-import com.github.moonbit.psi.AnyMbtiNode;
-import com.github.moonbit.psi.*;
+import java.util.List;
 
 public class MbtiImplBodyNode extends AnyMbtiNode implements MbtiImplBody {
 
