@@ -12,7 +12,7 @@ IntelliJ-based IDEs, supports the `*.mbt` file extension.
 | Syntax Highlight   | ✅        | [MoonTokenHighlighter](https://github.com/moonbitlang/Intellij-Moonbit/blob/dev/src/main/kotlin/com/github/moonbit/ide/highlight/MoonTokenHighlighter.kt)   |
 | Semantic Highlight | ✅        | [MoonSyntaxHighlighter](https://github.com/moonbitlang/Intellij-Moonbit/blob/dev/src/main/kotlin/com/github/moonbit/ide/highlight/MoonSyntaxHighlighter.kt) |
 | Pretty Formatter   | ✅        | [MoonFormatBuilder](https://github.com/moonbitlang/Intellij-Moonbit/blob/dev/src/main/kotlin/com/github/moonbit/ide/formatter/MoonFormatBuilder.kt)         |
-| Structure View     | ✅        | [MoonFormatBuilder](https://github.com/moonbitlang/Intellij-Moonbit/blob/dev/src/main/kotlin/com/github/moonbit/ide/formatter/MoonFormatBuilder.kt)         |
+| Structure View     | ✅        | [MoonStructureViewer](https://github.com/moonbitlang/Intellij-Moonbit/blob/dev/src/main/kotlin/com/github/moonbit/ide/view/MoonStructureViewer.kt)          |
 | Block Folding      | ✅        | [MoonFoldingVisitor](https://github.com/oovm/WIT-Intellij/blob/main/src/main/kotlin/com/github/bytecodealliance/ide/matcher/WitFoldingVisitor.kt)           |
 | Braces Matcher     | ✅        |                                                                                                                                                             |
 | Smart Enter        | ✅        | [MoonSmartEnter]()                                                                                                                                          |
