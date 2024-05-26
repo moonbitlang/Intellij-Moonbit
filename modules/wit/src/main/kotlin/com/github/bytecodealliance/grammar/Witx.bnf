@@ -1,0 +1,224 @@
+{
+    parserClass = "com.github.bytecodealliance.language.parser.WitxParser"
+    parserUtilClass = "com.github.bytecodealliance.language.psi.ParserExtension"
+
+    extends = "com.github.bytecodealliance.language.psi.WitElement"
+
+    psiClassPrefix = "Witx"
+    psiImplClassSuffix = "Node"
+    psiPackage = "com.github.bytecodealliance.language.psi"
+    psiImplPackage = "com.github.bytecodealliance.language.psi_node"
+
+    elementTypeHolderClass = "com.github.bytecodealliance.language.psi.WitxTypes"
+    elementTypeClass = "com.github.bytecodealliance.language.psi.WitxElementType"
+    tokenTypeClass = "com.github.bytecodealliance.language.psi.WitTokenType"
+
+    psiImplUtilClass = "com.github.bytecodealliance.language.psi_node.FluentPsiExtension"
+
+    tokens = [
+        // comment
+        COMMENT_DOCUMENT = "Comment Document"
+        COMMENT_LINE = "Comment Line"
+        COMMENT_BLOCK = "Comment Block"
+
+        // literal
+        URL = "Url"
+        SYMBOL    = "Symbol"
+        REFERENCE = "$Symbol"
+        STRING_QUOTE = "String Quote"
+        STRING_CHAR = "String Character"
+        STRING_ESCAPE = "String Escaped"
+        SELECTION_LINE = "SELECTION_LINE"
+
+		KW_WITX        = "@witx"
+		KW_PACKAGE     = "package"
+		KW_WORLD       = "world"
+		KW_INTERFACE   = "interface"
+		KW_INCLUDE     = "include"
+		KW_EXPORT      = "export"
+		KW_IMPORT      = "import"
+		KW_USE         = "use"
+		KW_AS          = "as"
+		KW_TYPE        = "typename"
+		KW_HANDLE      = "handle"
+		KW_RECORD      = "record"
+		KW_FIELD	   = "field"
+		KW_ENUM        = "enum"
+		KW_FLAGS       = "flags"
+		KW_UNION       = "union"
+		KW_FUNCTION    = "func"
+		KW_CONSTRUCTOR = "constructor"
+		KW_LIST		   = "list"
+
+        PARENTHESIS_L = '('
+        PARENTHESIS_R = ')'
+        BRACKET_L = '['
+        BRACKET_R = ']'
+        BRACE_L = '{'
+        BRACE_R = '}'
+        ANGLE_L = '<'
+        ANGLE_R = '>'
+        ACCENT = '^'
+        EQ = '='
+        COLON = ':'
+        SEMICOLON = ';'
+        COMMA = ','
+        DOLLAR = '$'
+        DOT = '.'
+        STAR = '*'
+        AT = '@'
+        TO = "->"
+        HYPHEN = "-"
+        SLASH = '/'
+        PLACE_HOLDER = "_"
+//      SPACE='regexp:\s+'
+//      ANY = 'regexp:.'
+
+    ]
+}
+
+// https://github.com/bytecodealliance/fluent/blob/master/spec/fluent.ebnf
+witx ::= statements*
+private statements ::=
+    typename
+
+
+// package wasi:blobstore@0.2.0-draft;
+package ::= KW_PACKAGE package-name {
+	pin = 1
+//    mixin = "com.github.bytecodealliance.language.mixin.MixinPackage"
+}
+package-name ::=
+	organization-name (COLON module-name) (AT VERSION)
+  | module-name
+// world name { }
+world ::= KW_WORLD identifier BRACE_L world-element* BRACE_R {
+	pin = 1
+//    mixin = "com.github.bytecodealliance.language.mixin.MixinWorld"
+}
+private world-element ::=
+    include
+  | import
+  | export
+  | use
+// include wasi:keyvalue/imports@0.2.0-draft;
+include ::= KW_INCLUDE include-name {
+	pin = 1
+//    mixin = "com.github.bytecodealliance.language.mixin.MixinInclude"
+}
+include-name ::=
+    identifier (COLON identifier) (SLASH interface-name) (AT VERSION)
+  | interface-name
+// import imports;
+import    ::= KW_IMPORT include-name {
+	pin = 1
+}
+// import imports;
+export    ::= KW_EXPORT interface-name {
+	pin = 1
+}
+//  use wasi:io/streams@0.2.0.{input-stream, output-stream};
+use      ::= KW_USE include-name use-items? {
+	pin = 1
+}
+use-items ::= DOT BRACE_L (use-alias (COMMA use-alias)* COMMA?)? BRACE_R {
+	pin = 1
+}
+use-alias ::= identifier (KW_AS alias-name)? {
+
+}
+// get-insecure-random-bytes: func(len: u64) -> list<u8>;
+method ::= identifier COLON function-signature {
+//	mixin = "com.github.bytecodealliance.language.mixin.MixinMethod"
+}
+constructor ::= KW_CONSTRUCTOR function-parameters {
+	pin = 1
+}
+function ::= identifier COLON function-signature {
+//	mixin = "com.github.bytecodealliance.language.mixin.MixinFunction"
+}
+
+function-signature ::= identifier? KW_FUNCTION function-parameters (TO type-hint)? {
+	pin = 2
+}
+function-parameters ::= PARENTHESIS_L (parameter (COMMA parameter)* COMMA?)? PARENTHESIS_R;
+parameter ::= identifier COLON type-hint {
+
+}
+// (typename $size u32)
+typename ::= PARENTHESIS_L KW_TYPE reference-name type-hint PARENTHESIS_R {
+	pin = 2
+}
+type-hint ::=
+	identifier
+  | reference-name
+  | tag
+  | handle
+  | record
+  | flags
+  | enum
+  | union
+  | list
+
+
+handle    ::= PARENTHESIS_L KW_HANDLE PARENTHESIS_R
+list	  ::= PARENTHESIS_L KW_LIST type-hint PARENTHESIS_R
+// record type-name { field: type-hint, key: value };
+record   ::= PARENTHESIS_L KW_RECORD record-element* PARENTHESIS_R {
+	pin = 2
+//    mixin = "com.github.bytecodealliance.language.mixin.MixinRecord"
+}
+private record-element ::=
+    record-field
+
+// (field $buf (@witx pointer u8))
+record-field    ::= PARENTHESIS_L KW_FIELD reference-name type-hint PARENTHESIS_R {
+	pin = 2
+//    mixin = "com.github.bytecodealliance.language.mixin.MixinField"
+}
+
+
+flags       ::= PARENTHESIS_L KW_FLAGS tag enum-items* PARENTHESIS_R {
+	pin = 2
+//    mixin = "com.github.bytecodealliance.language.mixin.MixinFlags"
+}
+//   (enum (@witx tag u32)
+//    ;;; The clock measuring real time. Time value zero corresponds with
+//    ;;; 1970-01-01T00:00:00Z.
+//    $realtime
+//    ;;; The store-wide monotonic clock, which is defined as a clock measuring
+//    ;;; real time, whose value cannot be adjusted and which cannot have negative
+//    ;;; clock jumps. The epoch of this clock is undefined. The absolute time
+//    ;;; value of this clock therefore has no meaning.
+//    $monotonic
+//    ;;; The CPU-time clock associated with the current process.
+//    $process_cputime_id
+//    ;;; The CPU-time clock associated with the current thread.
+//    $thread_cputime_id
+//  )
+enum       ::= PARENTHESIS_L KW_ENUM tag enum-items* PARENTHESIS_R {
+	pin = 2
+}
+enum-items ::= reference-name
+tag  ::= PARENTHESIS_L KW_WITX identifier type-hint PARENTHESIS_R {
+	pin = 2
+}
+
+
+
+union     ::= PARENTHESIS_L KW_UNION tag enum-items* PARENTHESIS_R {
+	pin = 2
+//    mixin = "com.github.bytecodealliance.language.mixin.MixinVariant"
+}
+variant-item 	 ::= identifier (PARENTHESIS_L type-hint PARENTHESIS_R)? {
+//    mixin = "com.github.bytecodealliance.language.mixin.MixinVariantItem"
+}
+
+
+/* Literals */
+
+/* Identifier */
+reference-name      ::= REFERENCE;
+semantic-number     ::= SYMBOL | ESCAPED;
+identifier          ::= SYMBOL;
+

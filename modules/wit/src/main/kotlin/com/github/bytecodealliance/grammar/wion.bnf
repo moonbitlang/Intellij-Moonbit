@@ -1,0 +1,88 @@
+{
+    parserClass = "com.github.bytecodealliance.language.parser.WionParser"
+    parserUtilClass = "com.github.bytecodealliance.language.psi.ParserExtension"
+
+    extends = "com.github.bytecodealliance.language.psi.WionElement"
+
+    psiClassPrefix = "Wion"
+    psiImplClassSuffix = "Node"
+    psiPackage = "com.github.bytecodealliance.language.psi"
+    psiImplPackage = "com.github.bytecodealliance.language.psi_node"
+
+    elementTypeHolderClass = "com.github.bytecodealliance.language.psi.WionTypes"
+    elementTypeClass = "com.github.bytecodealliance.language.psi.WionElementType"
+    tokenTypeClass = "com.github.bytecodealliance.language.psi.WionTokenType"
+
+    psiImplUtilClass = "com.github.bytecodealliance.language.psi_node.PsiExtension"
+
+    tokens = [
+        // literal
+        STRING_QUOTE = "String Quote"
+        STRING_CHAR = "String Character"
+        STRING_ESCAPE = "String Escaped"
+
+        PARENTHESIS_L = '('
+        PARENTHESIS_R = ')'
+        BRACKET_L = '['
+        BRACKET_R = ']'
+        BRACE_L = '{'
+        BRACE_R = '}'
+        EQUAL = '='
+        COMMA = ','
+    ]
+}
+
+
+wion ::= wion-value
+wion-value ::=
+	  text-literal
+	| number-literal
+	| dict-literal
+	| list-literal
+	| flag-literal
+	| variant-literal
+	| result-literal
+	| option-literal
+	| KW_TRUE
+	| KW_FALSE
+// 'raw' or "\n"
+text-literal ::= STRING_S1 | STRING_S2;
+// 0b01, 0o123, 123, 0x123
+number-literal ::= BIN | OCT | DEC | HEX;
+// record { key = value}
+dict-literal ::= identifier? BRACE_L dict-item* BRACE_R {
+//    mixin = "com.github.bytecodealliance.language.mixin.MixinInclude"
+}
+dict-item  ::= dict-key EQUAL wion-value | COMMA;
+dict-key   ::= identifier | text-literal;
+// [true, false, 0]
+list-literal ::= BRACKET_L list-item* BRACKET_R {
+//    mixin = "com.github.bytecodealliance.language.mixin.MixinInterface"
+}
+// exports: interface
+list-item ::= wion-value | COMMA {
+//	extends = interface
+//	mixin = "com.github.bytecodealliance.language.mixin.MixinInterface"
+}
+
+flag-literal ::= flag-sign BRACKET_L flag-item* BRACKET_R {
+
+}
+flag-sign ::= ADD | SUB;
+flag-item ::= identifier | text-literal | COMMA {
+//	mixin = "com.github.bytecodealliance.language.mixin.MixinInterface"
+}
+// variant()
+option-literal  ::= KW_SOME PARENTHESIS_L wion-value? PARENTHESIS_R
+	| KW_NONE
+result-literal  ::=
+	KW_FINE PARENTHESIS_L wion-value? PARENTHESIS_R
+  | KW_FAIL PARENTHESIS_L wion-value? PARENTHESIS_R
+variant-literal ::= variant-name PARENTHESIS_L wion-value? PARENTHESIS_R {
+//    mixin = "com.github.bytecodealliance.language.mixin.MixinWorld"
+}
+variant-name    ::= KW_NONE | KW_TRUE | KW_FALSE | identifier;
+/* Identifier */
+identifier ::= SYMBOL;
+
+useless ::= COMMENT_LINE;

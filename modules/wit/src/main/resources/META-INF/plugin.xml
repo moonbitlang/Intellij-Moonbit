@@ -1,0 +1,143 @@
+<idea-plugin>
+	<id>wit</id>
+	<name>WIT IDL</name>
+	<vendor>voml</vendor>
+	<!-- Product and plugin compatibility requirements -->
+	<!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
+	<depends>com.intellij.modules.platform</depends>
+	<depends optional="true" config-file="plugin-with-ultimate.xml">com.intellij.modules.ultimate</depends>
+	<resource-bundle>messages.WitBundle</resource-bundle>
+	<extensions defaultExtensionNs="com.intellij">
+		<fileType
+				name="wit"
+				language="wit"
+				extensions="wit;"
+				implementationClass="com.github.bytecodealliance.language.file.WitFileType"
+				fieldName="INSTANCE"
+		/>
+		<fileType
+				name="wion"
+				language="wion"
+				extensions="wion;"
+				implementationClass="com.github.bytecodealliance.language.file.WionFileType"
+				fieldName="INSTANCE"
+		/>
+		<fileType
+				name="witx"
+				language="witx"
+				extensions="witx;"
+				implementationClass="com.github.bytecodealliance.language.file.WitFileTypeX"
+				fieldName="INSTANCE"
+		/>
+		<lang.parserDefinition
+				language="wit"
+				implementationClass="com.github.bytecodealliance.language.psi.WitParserDefinition"
+		/>
+		<lang.parserDefinition
+				language="wion"
+				implementationClass="com.github.bytecodealliance.language.psi.WionParserDefinition"
+		/>
+		<lang.parserDefinition
+				language="witx"
+				implementationClass="com.github.bytecodealliance.language.psi.WitParserDefinitionX"
+		/>
+		<lang.syntaxHighlighter
+				language="wit"
+				implementationClass="com.github.bytecodealliance.ide.highlight.WitSyntaxHighlighter"
+		/>
+		<lang.syntaxHighlighter
+				language="witx"
+				implementationClass="com.github.bytecodealliance.ide.highlight.WitSyntaxHighlighterX"
+		/>
+		<lang.syntaxHighlighter
+				language="wion"
+				implementationClass="com.github.bytecodealliance.ide.highlight.WionTokenHighlighter"
+		/>
+
+		<!-- StructureView -->
+		<lang.psiStructureViewFactory language="wit"
+		                              implementationClass="com.github.bytecodealliance.ide.view.WitStructureViewFactory"/>
+		<projectViewNestingRulesProvider implementation="com.github.bytecodealliance.language.file.FluentFileGroup"/>
+		<!-- Highlight -->
+		<additionalTextAttributes scheme="Default" file="colors/FluentDefault.xml"/>
+		<additionalTextAttributes scheme="Darcula" file="colors/FluentDarcula.xml"/>
+
+		<colorSettingsPage implementation="com.github.bytecodealliance.ide.highlight.WitHighlightSetting"/>
+		<highlightVisitor implementation="com.github.bytecodealliance.ide.highlight.WitHighlightVisitor"/>
+
+		<colorSettingsPage implementation="com.github.bytecodealliance.ide.highlight.WionHighlightSetting"/>
+		<highlightVisitor implementation="com.github.bytecodealliance.ide.highlight.WionNodeHighlighter"/>
+
+
+		<!-- Formatter -->
+		<lang.formatter
+				language="wit"
+				implementationClass="com.github.bytecodealliance.ide.formatter.WitFormatBuilder"
+		/>
+		<lang.commenter
+				language="wit"
+				implementationClass="com.github.bytecodealliance.ide.formatter.WitCommenter"
+		/>
+		<lang.smartEnterProcessor
+				language="wit"
+				implementationClass="com.github.bytecodealliance.ide.formatter.WitSmartEnter"
+		/>
+		<!-- Document -->
+
+		<!--documentationProvider implementation="com.github.bytecodealliance.ide.doc.JssDocumentationExtender"-->
+		<!--		<psi.referenceContributor implementation="com.github.bytecodealliance.ide.doc.JssUrlReferenceContributor"/>-->
+		<lang.documentationProvider
+				language="wit"
+				implementationClass="com.github.bytecodealliance.ide.doc.WitDocumentationProvider"
+		/>
+		<lang.braceMatcher
+				language="wit"
+				implementationClass="com.github.bytecodealliance.ide.matcher.FluentBraceMatcher"
+		/>
+
+		<!--		<lang.quoteHandler-->
+		<!--				language="Fluent"-->
+		<!--				implementationClass="com.github.bytecodealliance.ide.matcher.JssQuoteHandler"-->
+		<!--		/>-->
+		<lang.foldingBuilder
+				language="wit"
+				implementationClass="com.github.bytecodealliance.ide.matcher.FluentFoldingBuilder"
+		/>
+		<!--		<indexPatternBuilder-->
+		<!--				implementation="com.github.bytecodealliance.ide.todo.VomlTodoIndexPatternBuilder"-->
+		<!--		/>-->
+		<!--		<todoIndexer-->
+		<!--				filetype="Fluent"-->
+		<!--				implementationClass="com.github.bytecodealliance.ide.todo.VomlTodoIndexer"-->
+		<!--		/>-->
+		<!--		<completion.contributor-->
+		<!--				language="Fluent"-->
+		<!--				implementationClass="com.github.bytecodealliance.ide.completion.VomlOptionCompletionContributor"-->
+		<!--		/>-->
+
+		<annotator language="wit" implementationClass="com.github.bytecodealliance.ide.annotator.LiteralChecker"/>
+
+		<langCodeStyleSettingsProvider
+				implementation="com.github.bytecodealliance.ide.codeStyle.FluentLanguageCodeStyleSettingsProvider"
+		/>
+		<!--		<languageInjectionContributor-->
+		<!--			language="Fluent"-->
+		<!--			implementationClass="com.github.bytecodealliance.ide.highlight.InjectMarkdown"-->
+		<!--		/>-->
+
+	</extensions>
+	<actions>
+		<action id="NewFluentFile" class="com.github.bytecodealliance.ide.actions.FluentCreateFile">
+			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
+		</action>
+		<!--		<action id="jss.JssConvertJson" class="com.github.bytecodealliance.ide.actions.FluentConvertMo"/>-->
+		<group id="jss.JssGenerator" popup="true" text="JssGenerator">
+			<reference ref="NewFluentFile"/>
+			<!--			<reference ref="jss.JssConvertJson"/>-->
+			<add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
+			<add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
+			<add-to-group group-id="EditorTabPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
+			<add-to-group group-id="ConsoleEditorPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
+		</group>
+	</actions>
+</idea-plugin>
