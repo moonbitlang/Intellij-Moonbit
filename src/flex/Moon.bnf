@@ -137,8 +137,8 @@ let-statement ::= modifier? KW_LET KW_MUTABLE? identifier type-hint? OP_ASSIGN t
 //    mixin = "com.github.bytecodealliance.language.mixin.MixinWorld"
 }
 // =====================================================================================================================
-declare-function ::= modifier* function-extern? KW_FN function-name declare-generic? declare-parameters return-type? (function-body | function-inline) {
-	pin = 4
+declare-function ::= modifier* function-extern? KW_FN function-name declare-generic? declare-parameters? return-type? (function-body | function-inline) {
+	pin = 3
 //    mixin = "com.github.bytecodealliance.language.mixin.MixinInterface"
 }
 function-name   ::= (identifier-free NAME_JOIN)? identifier-free
