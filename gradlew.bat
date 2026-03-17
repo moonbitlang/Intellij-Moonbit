@@ -36,7 +36,7 @@ set APP_HOME=%DIRNAME%
 for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
 
 @rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
-set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m" "-Djavax.net.ssl.trustStoreType=JKS" "-Djavax.net.ssl.trustStore=none" "-Dhttps.protocols=TLSv1.2,TLSv1.3" "-Djavax.net.ssl.trustAllCerts=true" "-Djavax.net.ssl.trustAllHosts=true" "-Dorg.gradle.jvmargs=-Djavax.net.ssl.trustStoreType=JKS -Djavax.net.ssl.trustStore=none -Dhttps.protocols=TLSv1.2,TLSv1.3 -Djavax.net.ssl.trustAllCerts=true -Djavax.net.ssl.trustAllHosts=true"
+set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m"
 
 @rem Find java.exe
 if defined JAVA_HOME goto findJavaFromJavaHome
