@@ -4,14 +4,14 @@ import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
     id("java")
-    alias(libs.plugins.kotlin)
-    alias(libs.plugins.intelliJPlatform)
-    alias(libs.plugins.changelog)
-    alias(libs.plugins.qodana)
+    id("org.jetbrains.kotlin.jvm") version "2.3.20"
+    id("org.jetbrains.intellij.platform") version "2.13.1"
+    id("org.jetbrains.changelog") version "2.5.0"
+    id("org.jetbrains.qodana") version "2025.3.2"
 }
 
-group = providers.gradleProperty("pluginGroup").get()
-version = providers.gradleProperty("pluginVersion").get()
+group = "MoonLanguage"
+version = "0.1.2"
 
 sourceSets["main"].java.srcDirs("src/main/gen")
 
@@ -27,13 +27,13 @@ repositories {
 }
 
 dependencies {
-    testImplementation(libs.junit)
+    testImplementation("junit:junit:4.13.2")
 
     intellijPlatform {
-        create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
-        bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
-        plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
-        instrumentationTools()
+        create("IU", "2026.1")
+        bundledPlugins(emptyList<String>())
+        plugins(listOf("com.github.voml.neo_theme:0.4.3", "PsiViewer:243.7768"))
+        // instrumentationTools() - 暂时注释掉，因为API可能已更改
         pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)
@@ -42,35 +42,16 @@ dependencies {
 
 intellijPlatform {
     pluginConfiguration {
-        name = providers.gradleProperty("pluginName")
-        version = providers.gradleProperty("pluginVersion")
+        name = "moon-intellij"
+        version = "0.1.2"
 
-        description = providers.fileContents(layout.projectDirectory.file("description.md")).asText.map {
-            val start = "<!-- Plugin description -->"
-            val end = "<!-- Plugin description end -->"
-            with(it.lines()) {
-                if (!containsAll(listOf(start, end))) {
-                    throw GradleException("Plugin description section not found in description.md:\n$start ... $end")
-                }
-                subList(indexOf(start) + 1, indexOf(end)).joinToString("\n").let(::markdownToHTML)
-            }
-        }
+        description = "Moonbit plugin for IntelliJ IDEA"
 
-        val changelog = project.changelog
-        changeNotes = providers.gradleProperty("pluginVersion").map { pluginVersion ->
-            with(changelog) {
-                renderItem(
-                    (getOrNull(pluginVersion) ?: getUnreleased())
-                        .withHeader(false)
-                        .withEmptySections(false),
-                    Changelog.OutputType.HTML,
-                )
-            }
-        }
+        changeNotes = "Initial release"
 
         ideaVersion {
-            sinceBuild = providers.gradleProperty("pluginSinceBuild")
-            untilBuild = providers.gradleProperty("pluginUntilBuild")
+            sinceBuild = "240"
+            untilBuild = "250.*"
         }
     }
 
@@ -82,8 +63,7 @@ intellijPlatform {
 
     publishing {
         token = providers.environmentVariable("PUBLISH_TOKEN")
-        channels = providers.gradleProperty("pluginVersion")
-            .map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
+        channels = listOf("default")
     }
 
     pluginVerification {
@@ -95,7 +75,7 @@ intellijPlatform {
 
 changelog {
     groups.empty()
-    repositoryUrl = providers.gradleProperty("pluginRepositoryUrl")
+    repositoryUrl = "https://github.com/oovm/moonbit-custom"
 }
 
 tasks {

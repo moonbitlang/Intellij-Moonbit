@@ -1,8 +1,11 @@
-.idea
+# IDE
+.idea/
+.trae/
 .intellijPlatform
+
+# Kotlin
 .gradle
 .kotlin
 .qodana
 build
 _MoonLexer.java~
-
