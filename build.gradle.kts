@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.kotlin) apply false
+    alias(libs.plugins.kotlin)
     alias(libs.plugins.intelliJPlatform) apply false
     alias(libs.plugins.changelog) apply false
     alias(libs.plugins.qodana) apply false
