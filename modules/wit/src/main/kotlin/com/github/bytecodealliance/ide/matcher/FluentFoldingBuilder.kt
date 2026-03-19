@@ -20,7 +20,7 @@ class FluentFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     ) {
         if (root !is WitFile) return
         val visitor = WitFoldingVisitor(descriptors)
-        PsiTreeUtil.processElements(root) { it.accept(visitor); true }
+        root.accept(visitor)
     }
 
     override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange) =

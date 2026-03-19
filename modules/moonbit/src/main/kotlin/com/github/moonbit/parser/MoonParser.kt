@@ -2,12 +2,9 @@ package com.github.moonbit.parser
 
 import com.github.moonbit.psi.MoonTypes
 import com.intellij.lang.ASTNode
-import com.intellij.lang.ParserDefinition
 import com.intellij.lang.PsiParser
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.PsiBuilder
-import com.intellij.psi.tree.TokenSet
-import com.intellij.lang.PsiBuilderFactory
 
 class MoonParser : PsiParser {
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
@@ -781,68 +778,4 @@ class MoonParser : PsiParser {
             builder.advanceLexer() // for
             parseType(builder)
         }
-        if (builder.tokenType == MoonTypes.KW_WITH) {
-            builder.advanceLexer() // with
-            parsePath(builder)
-        }
-        if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
-            parseImplBody(builder)
-            if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
-            }
-        }
-        marker.done(MoonTypes.IMPL)
-    }
-
-    private fun parseImplBody(builder: PsiBuilder) {
-        while (!builder.eof() && builder.tokenType != MoonTypes.BRACE_R) {
-            when (builder.tokenType) {
-                MoonTypes.KW_FN -> parseFunction(builder)
-                else -> builder.advanceLexer()
-            }
-        }
-    }
-
-    private fun parseExtern(builder: PsiBuilder) {
-        val marker = builder.mark()
-        builder.advanceLexer() // extern
-        if (builder.tokenType == MoonTypes.KW_FN) {
-            parseFunctionSignature(builder)
-        }
-        marker.done(MoonTypes.EXTERN)
-    }
-
-    private fun parseExpression(builder: PsiBuilder) {
-        parseTerm(builder)
-        while (isBinaryOperator(builder.tokenType)) {
-            builder.advanceLexer()
-            parseTerm(builder)
-        }
-    }
-
-    private fun parseTerm(builder: PsiBuilder) {
-        when (builder.tokenType) {
-            MoonTypes.INTEGER, MoonTypes.SYMBOL -> builder.advanceLexer()
-            MoonTypes.PARENTHESIS_L -> {
-                builder.advanceLexer()
-                parseExpression(builder)
-                if (builder.tokenType == MoonTypes.PARENTHESIS_R) {
-                    builder.advanceLexer()
-                }
-            }
-            else -> builder.advanceLexer()
-        }
-    }
-
-    private fun isBinaryOperator(tokenType: IElementType?): Boolean {
-        return when (tokenType) {
-            MoonTypes.OP_ADD, MoonTypes.OP_SUB, MoonTypes.OP_MUL, MoonTypes.OP_DIV, MoonTypes.OP_MOD,
-            MoonTypes.OP_EQ, MoonTypes.OP_NE, MoonTypes.OP_LT, MoonTypes.OP_LEQ, MoonTypes.OP_GT, MoonTypes.OP_GEQ,
-            MoonTypes.OP_AND, MoonTypes.OP_OR, MoonTypes.OP_BIT_AND, MoonTypes.OP_BIT_OR, MoonTypes.OP_XOR,
-            MoonTypes.OP_ASSIGN, MoonTypes.OP_ADD_ASSIGN, MoonTypes.OP_SUB_ASSIGN, MoonTypes.OP_MUL_ASSIGN, MoonTypes.OP_DIV_ASSIGN
-            -> true
-            else -> false
-        }
-    }
-}
+        if (builder.tokenType == MoonTypes

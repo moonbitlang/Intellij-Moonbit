@@ -114,6 +114,37 @@ object MoonTypes {
     val DOUBLE_QUOTE_R: IElementType = MoonTokenType("DOUBLE_QUOTE_R")
     val STRING_TEXT: IElementType = MoonTokenType("STRING_TEXT")
 
+    // Element tokens
+    val PACKAGE: IElementType = MoonTokenType("PACKAGE")
+    val IMPORT: IElementType = MoonTokenType("IMPORT")
+    val EXPORT: IElementType = MoonTokenType("EXPORT")
+    val INCLUDE: IElementType = MoonTokenType("INCLUDE")
+    val WORLD: IElementType = MoonTokenType("WORLD")
+    val INTERFACE: IElementType = MoonTokenType("INTERFACE")
+    val RECORD: IElementType = MoonTokenType("RECORD")
+    val ENUM: IElementType = MoonTokenType("ENUM")
+    val FLAGS: IElementType = MoonTokenType("FLAGS")
+    val VARIANT: IElementType = MoonTokenType("VARIANT")
+    val TRAIT: IElementType = MoonTokenType("TRAIT")
+    val STRUCT: IElementType = MoonTokenType("STRUCT")
+    val FUNCTION: IElementType = MoonTokenType("FUNCTION")
+    val FUNCTION_SIGNATURE: IElementType = MoonTokenType("FUNCTION_SIGNATURE")
+    val LET: IElementType = MoonTokenType("LET")
+    val IF: IElementType = MoonTokenType("IF")
+    val MATCH: IElementType = MoonTokenType("MATCH")
+    val WHILE: IElementType = MoonTokenType("WHILE")
+    val FOR: IElementType = MoonTokenType("FOR")
+    val RETURN: IElementType = MoonTokenType("RETURN")
+    val BREAK: IElementType = MoonTokenType("BREAK")
+    val CONTINUE: IElementType = MoonTokenType("CONTINUE")
+    val RAISE: IElementType = MoonTokenType("RAISE")
+    val TRY: IElementType = MoonTokenType("TRY")
+    val TYPE_DEF: IElementType = MoonTokenType("TYPE_DEF")
+    val TYPE_ALIAS: IElementType = MoonTokenType("TYPE_ALIAS")
+    val IMPL: IElementType = MoonTokenType("IMPL")
+    val EXTERN: IElementType = MoonTokenType("EXTERN")
+    val USE: IElementType = MoonTokenType("USE")
+
     // Factory for creating elements
     object Factory {
         fun createElement(node: com.intellij.lang.ASTNode): com.intellij.psi.PsiElement {

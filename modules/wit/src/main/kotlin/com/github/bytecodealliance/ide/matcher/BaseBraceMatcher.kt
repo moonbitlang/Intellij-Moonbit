@@ -1,7 +1,6 @@
 package com.github.bytecodealliance.ide.matcher
 
 import com.github.bytecodealliance.language.psi.WitParserDefinition
-import com.github.bytecodealliance.language.psi.WitTypes.*
 import com.intellij.lang.BracePair
 import com.intellij.lang.PairedBraceMatcher
 import com.intellij.psi.PsiFile
@@ -19,8 +18,8 @@ class BaseBraceMatcher : PairedBraceMatcher {
     override fun getCodeConstructStart(file: PsiFile?, openingBraceOffset: Int): Int = openingBraceOffset
 
     companion object {
-        private val PAIRS = arrayOf(
-            BracePair(BRACE_L, BRACE_R, true),
+        private val PAIRS: Array<BracePair> = arrayOf(
+            // BracePair(BRACE_L, BRACE_R, true),
 //            BracePair(AwslTypes.BRACKET_L, AwslTypes.BRACKET_R, true),
 //            BracePair(AwslTypes.PARENTHESIS_L, AwslTypes.PARENTHESIS_R, true),
             // BracePair(VomlTypes.EXT_PREFIX, VomlTypes.BRACKETR, false)
@@ -30,7 +29,7 @@ class BaseBraceMatcher : PairedBraceMatcher {
             WitParserDefinition().commentTokens,
             TokenSet.create(
                 TokenType.WHITE_SPACE,
-                COMMA,
+                // COMMA,
 //                AwslTypes.PARENTHESIS_R,
 //                AwslTypes.BRACKET_R,
 //                AwslTypes.BRACE_R,

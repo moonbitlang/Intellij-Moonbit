@@ -1,8 +1,8 @@
 package com.github.moonbit.psi
 
 import com.github.moonbit.MoonLanguage
-import com.github.moonbit._MoonLexer
 import com.github.moonbit.file.MoonFile
+import com.github.moonbit.lexer.MbtiLexer
 import com.github.moonbit.parser.MbtiParser
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
@@ -18,7 +18,7 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 
 class MbtiParserDefinition : ParserDefinition {
-    override fun createLexer(project: Project?): Lexer = FlexAdapter(_MoonLexer(null))
+    override fun createLexer(project: Project?): Lexer = MbtiLexer()
     override fun createParser(project: Project?): PsiParser = MbtiParser()
     override fun getFileNodeType(): IFileElementType = IFileElementType(MoonLanguage)
     override fun getCommentTokens(): TokenSet = TokenSet.create(
