@@ -13,7 +13,7 @@ plugins {
 group = "MoonLanguage"
 version = "0.1.2"
 
-sourceSets["main"].java.srcDirs("src/main/gen")
+
 
 kotlin {
     jvmToolchain(17)
@@ -34,7 +34,7 @@ dependencies {
 
     intellijPlatform {
         println("使用 IntelliJ IDEA EAP 版本: ${libs.findVersion("ideaIC").get()}")
-        create("IC", libs.findVersion("ideaIC").get().toString())
+        intellijIdea(libs.findVersion("ideaIC").get().toString())
         bundledPlugins(emptyList())
         plugins(listOf(
             "com.github.voml.neo_theme:0.4.3",

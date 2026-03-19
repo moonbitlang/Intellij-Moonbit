@@ -13,7 +13,7 @@ plugins {
 group = "MoonLanguage"
 version = "0.1.2"
 
-sourceSets["main"].java.srcDirs("src/main/gen")
+
 
 kotlin {
     jvmToolchain(17)
@@ -33,7 +33,7 @@ dependencies {
     testImplementation(libs.findLibrary("junit").get())
 
     intellijPlatform {
-        create("IU", libs.findVersion("ideaIU").get().toString())
+        intellijIdea(libs.findVersion("ideaIU").get().toString())
         bundledPlugins(emptyList<String>())
         plugins(listOf(
             "com.github.voml.neo_theme:0.4.3",
