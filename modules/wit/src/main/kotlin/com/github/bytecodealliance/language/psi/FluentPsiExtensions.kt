@@ -184,3 +184,10 @@ fun PsiWhiteSpace.isMultiLine(): Boolean = getLineCount() > 1
 @Suppress("UNCHECKED_CAST")
 inline val <T : StubElement<*>> StubBasedPsiElement<T>.greenStub: T?
     get() = (this as? StubBasedPsiElementBase<T>)?.greenStub
+
+// Extension functions to replace mixin methods
+val PsiElement.identifierSafe: PsiElement?
+    get() = firstChild
+
+val PsiElement.identifierFree: PsiElement?
+    get() = firstChild
