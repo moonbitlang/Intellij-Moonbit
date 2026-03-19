@@ -1,6 +1,6 @@
 package com.github.bytecodealliance.language.lexer
 
-import com.github.bytecodealliance.language.psi.WitxTokenType
+import com.github.bytecodealliance.language.psi.WitTokenType
 import com.intellij.lexer.LexerBase
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.TokenType
@@ -31,28 +31,28 @@ class WitxLexer : LexerBase() {
     override fun getTokenType(): IElementType? {
         if (tokenStart >= endOffset) return null
         return when (buffer[tokenStart]) {
-            '(' -> WitxTokenType("PARENTHESIS_L")
-            ')' -> WitxTokenType("PARENTHESIS_R")
-            '[' -> WitxTokenType("BRACKET_L")
-            ']' -> WitxTokenType("BRACKET_R")
-            '{' -> WitxTokenType("BRACE_L")
-            '}' -> WitxTokenType("BRACE_R")
-            '=' -> WitxTokenType("EQUAL")
-            ',' -> WitxTokenType("COMMA")
-            '+' -> WitxTokenType("ADD")
-            '-' -> WitxTokenType("SUB")
+            '(' -> WitTokenType("PARENTHESIS_L")
+            ')' -> WitTokenType("PARENTHESIS_R")
+            '[' -> WitTokenType("BRACKET_L")
+            ']' -> WitTokenType("BRACKET_R")
+            '{' -> WitTokenType("BRACE_L")
+            '}' -> WitTokenType("BRACE_R")
+            '=' -> WitTokenType("EQUAL")
+            ',' -> WitTokenType("COMMA")
+            '+' -> WitTokenType("ADD")
+            '-' -> WitTokenType("SUB")
             '"' -> {
                 tokenEnd = findStringEnd(currentPosition)
-                WitxTokenType("STRING_S1")
+                WitTokenType("STRING_S1")
             }
             '\'' -> {
                 tokenEnd = findStringEnd(currentPosition, '\'')
-                WitxTokenType("STRING_S2")
+                WitTokenType("STRING_S2")
             }
             '/' -> {
                 if (currentPosition + 1 < endOffset && buffer[currentPosition + 1] == '/') {
                     tokenEnd = findCommentEnd(currentPosition)
-                    WitxTokenType("COMMENT_LINE")
+                    WitTokenType("COMMENT_LINE")
                 } else {
                     tokenEnd = currentPosition + 1
                     TokenType.BAD_CHARACTER
@@ -60,19 +60,19 @@ class WitxLexer : LexerBase() {
             }
             in '0'..'9' -> {
                 tokenEnd = findNumberEnd(currentPosition)
-                WitxTokenType("DEC")
+                WitTokenType("DEC")
             }
             in 'a'..'z', in 'A'..'Z', '_' -> {
                 tokenEnd = findIdentifierEnd(currentPosition)
                 val identifier = buffer.subSequence(tokenStart, tokenEnd).toString()
                 when (identifier) {
-                    "some" -> WitxTokenType("KW_SOME")
-                    "none" -> WitxTokenType("KW_NONE")
-                    "true" -> WitxTokenType("KW_TRUE")
-                    "false" -> WitxTokenType("KW_FALSE")
-                    "fine" -> WitxTokenType("KW_FINE")
-                    "fail" -> WitxTokenType("KW_FAIL")
-                    else -> WitxTokenType("SYMBOL")
+                    "some" -> WitTokenType("KW_SOME")
+                    "none" -> WitTokenType("KW_NONE")
+                    "true" -> WitTokenType("KW_TRUE")
+                    "false" -> WitTokenType("KW_FALSE")
+                    "fine" -> WitTokenType("KW_FINE")
+                    "fail" -> WitTokenType("KW_FAIL")
+                    else -> WitTokenType("SYMBOL")
                 }
             }
             else -> if (Character.isWhitespace(buffer[tokenStart])) {

@@ -22,7 +22,7 @@ class WitParserDefinitionX : ParserDefinition {
     override fun createParser(project: Project): PsiParser = WitxParser()
     override fun getFileNodeType(): IFileElementType = IFileElementType(WitxLanguage)
     override fun getCommentTokens(): TokenSet =
-        TokenSet.create(WitxTokenType("COMMENT_LINE"), WitxTokenType("COMMENT_BLOCK"))
+        TokenSet.create(WitTokenType("COMMENT_LINE"), WitTokenType("COMMENT_BLOCK"))
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.create()
     override fun getWhitespaceTokens(): TokenSet = TokenSet.create(TokenType.WHITE_SPACE)

@@ -11,82 +11,81 @@ import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 
-class WitHighlightVisitor : WitVisitor(), HighlightVisitor {
+class WitHighlightVisitor : HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
 
-    override fun visitUseAlias(o: WitUseAlias) {
+    fun visitUseAlias(o: WitUseAlias) {
         highlight(o.identifierSafe, SYM_TYPE)
         o.identifierSafe?.let { highlight(it, SYM_TYPE) }
     }
 
-    override fun visitImport(o: WitImport) {
-        super.visitImport(o)
+    fun visitImport(o: WitImport) {
     }
 
-    override fun visitResource(o: WitResource) {
+    fun visitResource(o: WitResource) {
         o.identifierSafe?.let { highlight(it, SYM_TYPE) }
     }
 
 
-    override fun visitRecord(o: WitRecord) {
+    fun visitRecord(o: WitRecord) {
         o.identifierSafe?.let { highlight(it, SYM_TYPE) }
     }
 
-    override fun visitRecordField(o: WitRecordField) {
+    fun visitRecordField(o: WitRecordField) {
         highlight(o.identifierSafe, SYM_FIELD)
     }
 
-    override fun visitEnum(o: WitEnum) {
+    fun visitEnum(o: WitEnum) {
         o.identifierFree?.let { highlight(it, NUMBER) }
     }
 
-    override fun visitFlags(o: WitFlags) {
+    fun visitFlags(o: WitFlags) {
         o.identifierFree?.let { highlight(it, NUMBER) }
     }
 
-    override fun visitSemanticNumber(o: WitSemanticNumber) {
+    fun visitSemanticNumber(o: WitSemanticNumber) {
         highlight(o, SYM_FIELD)
     }
 
-    override fun visitVariant(o: WitVariant) {
+    fun visitVariant(o: WitVariant) {
         o.identifierFree?.let { highlight(it, SYM_TYPE) }
     }
 
-    override fun visitVariantItem(o: WitVariantItem) {
+    fun visitVariantItem(o: WitVariantItem) {
         highlight(o.identifierSafe, SYM_FIELD)
     }
 
-    override fun visitFunction(o: WitFunction) {
+    fun visitFunction(o: WitFunction) {
         highlight(o.identifierSafe, SYM_FUNCTION)
     }
 
-    override fun visitMethod(o: WitMethod) {
+    fun visitMethod(o: WitMethod) {
         highlight(o.identifierSafe, SYM_FUNCTION)
     }
 
-    override fun visitAnnotation(o: WitAnnotation) {
+    fun visitAnnotation(o: WitAnnotation) {
         highlight(o.identifierFree, SYM_BUILTIN)
     }
 
-    override fun visitAnnotationPair(o: WitAnnotationPair) {
+    fun visitAnnotationPair(o: WitAnnotationPair) {
         highlight(o.identifierSafe, SYM_FIELD)
     }
 
-    override fun visitModifier(o: WitModifier) {
+    fun visitModifier(o: WitModifier) {
         highlight(o, SYM_BUILTIN)
     }
 
-    override fun visitParameter(o: WitParameter) {
+    fun visitParameter(o: WitParameter) {
         highlight(o.identifierSafe, SYM_FIELD)
     }
 
 
-    override fun visitDefineType(o: WitDefineType) {
+    fun visitDefineType(o: WitDefineType) {
         o.identifierSafe?.let { highlight(it, SYM_TYPE) }
     }
 
-    override fun visitTypeGeneric(o: WitTypeGeneric) {
+    fun visitTypeGeneric(o: WitTypeGeneric) {
         when (o.identifierSafe.text) {
             "_", "bool", "char",
             "u8", "u16", "u32", "u64",
@@ -110,11 +109,11 @@ class WitHighlightVisitor : WitVisitor(), HighlightVisitor {
         }
     }
 
-    override fun visitInterfaceName(o: WitInterfaceName) {
+    fun visitInterfaceName(o: WitInterfaceName) {
         highlight(o, SYM_INTERFACE)
     }
 
-//    override fun visitSchemaStatement(o: JssSchemaStatement) {
+//    fun visitSchemaStatement(o: JssSchemaStatement) {
 //        //
 //        val head = o.firstChild;
 //        highlight(head, FluentColor.KEYWORD)
