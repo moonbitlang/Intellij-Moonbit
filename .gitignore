@@ -2,6 +2,7 @@
 .idea/
 .trae/
 .intellijPlatform
+*.dll
 
 # Kotlin
 .gradle

@@ -9,6 +9,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/modules" />
+            <option value="$PROJECT_DIR$/modules/moonbit" />
+            <option value="$PROJECT_DIR$/modules/wit" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -9,6 +9,20 @@ kotlin = "2.3.20"
 kover = "0.9.7"
 qodana = "2025.3.2"
 
+# IntelliJ IDEA versions
+ideaIC = "2025.3.2"
+ideaIU = "2025.3.2"
+ideaSinceBuild = "240"
+ideaUntilBuild = "253.*"
+
+# Plugin versions
+neoThemePlugin = "0.4.3"
+psiViewerPlugin = "243.7768"
+
+# Plugin IDs
+neoThemePluginId = "com.github.voml.neo_theme"
+psiViewerPluginId = "PsiViewer"
+
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 

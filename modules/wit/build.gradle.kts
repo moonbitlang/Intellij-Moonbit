@@ -23,16 +23,23 @@ repositories {
     mavenCentral()
     intellijPlatform {
         defaultRepositories()
+        snapshots()
     }
 }
 
+val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
 dependencies {
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.findLibrary("junit").get())
 
     intellijPlatform {
-        create("IU", "2026.1")
-        bundledPlugins(emptyList<String>())
-        plugins(listOf("com.github.voml.neo_theme:0.4.3", "PsiViewer:243.7768"))
+        println("使用 IntelliJ IDEA EAP 版本: ${libs.findVersion("ideaIC").get()}")
+        create("IC", libs.findVersion("ideaIC").get().toString())
+        bundledPlugins(emptyList())
+        plugins(listOf(
+            "com.github.voml.neo_theme:0.4.3",
+            "PsiViewer:243.7768"
+        ))
         // instrumentationTools() - 暂时注释掉，因为API可能已更改
         pluginVerifier()
         zipSigner()
@@ -42,16 +49,16 @@ dependencies {
 
 intellijPlatform {
     pluginConfiguration {
-        name = "moon-intellij"
+        name = "wit-intellij"
         version = "0.1.2"
 
-        description = "Moonbit plugin for IntelliJ IDEA"
+        description = "WIT plugin for IntelliJ IDEA"
 
         changeNotes = "Initial release"
 
         ideaVersion {
-            sinceBuild = "240"
-            untilBuild = "250.*"
+            sinceBuild = libs.findVersion("ideaSinceBuild").get().toString()
+            untilBuild = libs.findVersion("ideaUntilBuild").get().toString()
         }
     }
 
@@ -79,6 +86,13 @@ changelog {
 }
 
 tasks {
+    runIde {
+        maxHeapSize = "4g"
+        jvmArgs("-Didea.no.update=true")
+        jvmArgs("-Didea.plugins.snapshot.on.the.fly=false")
+        jvmArgs("-Didea.suppress.statistics=true")
+    }
+
     publishPlugin {
         dependsOn(patchChangelog)
     }
