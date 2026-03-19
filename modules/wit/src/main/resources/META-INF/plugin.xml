@@ -26,7 +26,7 @@
 				name="witx"
 				language="witx"
 				extensions="witx;"
-				implementationClass="com.github.bytecodealliance.language.file.WitFileTypeX"
+				implementationClass="com.github.bytecodealliance.language.file.WitxFileType"
 				fieldName="INSTANCE"
 		/>
 		<lang.parserDefinition
@@ -57,7 +57,7 @@
 		<!-- StructureView -->
 		<lang.psiStructureViewFactory language="wit"
 		                              implementationClass="com.github.bytecodealliance.ide.view.WitStructureViewFactory"/>
-		<projectViewNestingRulesProvider implementation="com.github.bytecodealliance.language.file.FluentFileGroup"/>
+		<projectViewNestingRulesProvider implementation="com.github.bytecodealliance.language.file.WitFileGroup"/>
 		<!-- Highlight -->
 		<additionalTextAttributes scheme="Default" file="colors/FluentDefault.xml"/>
 		<additionalTextAttributes scheme="Darcula" file="colors/FluentDarcula.xml"/>
@@ -118,7 +118,7 @@
 		<annotator language="wit" implementationClass="com.github.bytecodealliance.ide.annotator.LiteralChecker"/>
 
 		<langCodeStyleSettingsProvider
-				implementation="com.github.bytecodealliance.ide.codeStyle.FluentLanguageCodeStyleSettingsProvider"
+				implementation="com.github.bytecodealliance.ide.codeStyle.WitLanguageCodeStyleSettingsProvider"
 		/>
 		<!--		<languageInjectionContributor-->
 		<!--			language="Fluent"-->
@@ -127,7 +127,7 @@
 
 	</extensions>
 	<actions>
-		<action id="NewFluentFile" class="com.github.bytecodealliance.ide.actions.FluentCreateFile">
+		<action id="NewFluentFile" class="com.github.bytecodealliance.ide.actions.WitCreateFile">
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
 		<!--		<action id="jss.JssConvertJson" class="com.github.bytecodealliance.ide.actions.FluentConvertMo"/>-->

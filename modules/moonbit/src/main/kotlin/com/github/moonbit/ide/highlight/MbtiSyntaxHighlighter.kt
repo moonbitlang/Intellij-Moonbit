@@ -3,6 +3,7 @@ package com.github.moonbit.ide.highlight
 import com.github.bytecodealliance.ide.highlight.MoonColor
 import com.github.moonbit.psi.MbtiParserDefinition
 import com.github.moonbit.psi.MoonTypes
+import com.github.moonbit.psi.MoonTypes.*
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
@@ -20,35 +21,50 @@ class MbtiSyntaxHighlighter : SyntaxHighlighterBase() {
 
     private fun getTokenColor(tokenType: IElementType): MoonColor? {
         return when (tokenType) {
-            MoonTypes.KW_PACKAGE,
-            MoonTypes.KW_TYPE, MoonTypes.KW_TYPE_ALIAS,
-            MoonTypes.KW_VARIANT, MoonTypes.KW_FLAGS, MoonTypes.KW_ENUM,
-            MoonTypes.KW_FN, MoonTypes.KW_TEST,
-            MoonTypes.KW_LET,
+            KW_PACKAGE,
+            KW_TYPE, KW_TYPE_ALIAS,
+            KW_DERIVE,
+            KW_STRUCT,
+            KW_TRAIT, KW_IMPLEMENT, KW_WITH,
+            KW_VARIANT, KW_FLAGS, KW_ENUM,
+            KW_FN, KW_TEST,
+            KW_LET,
+            KW_FOR, KW_WHILE,
+            KW_IF, KW_GUARD,
+            KW_ELSE,
+            KW_MATCH,
+            KW_RETURN, KW_CONTINUE, KW_BREAK,
                 -> MoonColor.KEYWORD
 
-            MoonTypes.KW_PUBLIC, MoonTypes.KW_PRIVATE -> MoonColor.KEYWORD
-            MoonTypes.KW_ALL, MoonTypes.KW_ALL -> MoonColor.SYM_BUILTIN
+            KW_PUBLIC, KW_PRIVATE -> MoonColor.KEYWORD
+            KW_ALL, KW_OPEN -> MoonColor.SYM_BUILTIN
+            KW_MUTABLE -> MoonColor.KEYWORD
 
-            MoonTypes.PARENTHESIS_L, MoonTypes.PARENTHESIS_R -> MoonColor.PARENTHESES
-            MoonTypes.BRACKET_L, MoonTypes.BRACKET_R -> MoonColor.BRACKETS
-            MoonTypes.BRACE_L, MoonTypes.BRACE_R -> MoonColor.BRACES
-            MoonTypes.COLON, MoonTypes.OP_ASSIGN -> MoonColor.OPERATION
-            MoonTypes.AT -> MoonColor.OPERATION
+            PARENTHESIS_L, PARENTHESIS_R -> MoonColor.PARENTHESES
+            BRACKET_L, BRACKET_R -> MoonColor.BRACKETS
+            BRACE_L, BRACE_R -> MoonColor.BRACES
+            COLON, OP_ASSIGN -> MoonColor.OPERATION
+            OP_ADD, OP_ASSIGN,
+            OP_SUB,
+            OP_MUL,
+            OP_DIV, OP_DIV_ASSIGN,
+            OP_MOD,
+            AT,
+                -> MoonColor.OPERATION
 
-            MoonTypes.COMMA -> MoonColor.COMMA
+            COMMA -> MoonColor.COMMA
             // atom
-            MoonTypes.VERSION -> MoonColor.NUMBER
+            INTEGER -> MoonColor.NUMBER
 
 //            SELECTION_LINE -> MoonColor.TEXT
 //            STRING_QUOTE, STRING_CHAR -> MoonColor.STRING
 //            STRING_ESCAPE -> MoonColor.STRING_ESCAPED
-//            STRING -> AwslColor.STRING
-            MoonTypes.SYMBOL -> MoonColor.IDENTIFIER
+            STRING_TEXT, DOUBLE_QUOTE_L, DOUBLE_QUOTE_R -> MoonColor.STRING
+            SYMBOL -> MoonColor.IDENTIFIER
             // 注释
-            MoonTypes.COMMENT_LINE -> MoonColor.LINE_COMMENT
-            MoonTypes.COMMENT_BLOCK -> MoonColor.BLOCK_COMMENT
-            MoonTypes.COMMENT_DOCUMENT -> MoonColor.DOC_COMMENT
+            COMMENT_LINE -> MoonColor.LINE_COMMENT
+            COMMENT_BLOCK -> MoonColor.BLOCK_COMMENT
+            COMMENT_DOCUMENT -> MoonColor.DOC_COMMENT
             // 错误
             TokenType.BAD_CHARACTER -> MoonColor.BAD_CHARACTER
             else -> null

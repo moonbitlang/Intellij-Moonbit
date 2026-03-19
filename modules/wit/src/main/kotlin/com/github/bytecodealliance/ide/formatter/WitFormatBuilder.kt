@@ -1,6 +1,5 @@
 package com.github.bytecodealliance.ide.formatter
 
-import com.github.bytecodealliance.language.psi.*
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
@@ -12,36 +11,54 @@ class WitFormatBuilder : FormattingModelBuilder {
     override fun createModel(formattingContext: FormattingContext): FormattingModel {
         val settings = formattingContext.codeStyleSettings
         val element = formattingContext.psiElement
-        val ctx = WitFormatSpace.create(settings)
-        val block = FormatBlock(element.node, null, Indent.getNoneIndent(), null, ctx)
+        val block = object : Block {
+            override fun getTextRange(): TextRange {
+                return element.node.textRange
+            }
+
+            override fun getSubBlocks(): MutableList<Block> {
+                return mutableListOf()
+            }
+
+            override fun getWrap(): Wrap? {
+                return null
+            }
+
+            override fun getIndent(): Indent? {
+                return Indent.getNoneIndent()
+            }
+
+            override fun getAlignment(): Alignment? {
+                return null
+            }
+
+            override fun getSpacing(child1: Block?, child2: Block): Spacing? {
+                return null
+            }
+
+            override fun getChildAttributes(newChildIndex: Int): ChildAttributes {
+                return ChildAttributes(Indent.getNoneIndent(), null)
+            }
+
+            override fun isIncomplete(): Boolean {
+                return false
+            }
+
+            override fun isLeaf(): Boolean {
+                return element.node.firstChildNode == null
+            }
+        }
         return FormattingModelProvider.createFormattingModelForPsiFile(element.containingFile, block, settings)
     }
 
     companion object {
         fun getChildAttributes(node: ASTNode, newChildIndex: Int): ChildAttributes {
-            val indent = when (node.elementType) {
-//                FluentTypes.SELECT_EXPRESSION -> Indent.getNormalIndent()
-                else -> Indent.getNoneIndent()
-            }
+            val indent = Indent.getNoneIndent()
             return ChildAttributes(indent, null)
         }
 
         fun computeIndent(parent: ASTNode, child: ASTNode): Indent? {
-            return when (parent.psi) {
-                is WitWorldBody -> parent.byCorner(child)
-                is WitUseBody -> parent.byCorner(child)
-                is WitInterfaceBody -> parent.byCorner(child)
-                is WitResourceBody -> parent.byCorner(child)
-                is WitRecordBody -> parent.byCorner(child)
-                is WitFlagsBody -> parent.byCorner(child)
-                is WitEnumBody -> parent.byCorner(child)
-                is WitVariantBody -> parent.byCorner(child)
-                is WitFunctionSignature -> parent.indentInRange(child, 1, 1)
-                is WitTuple -> parent.indentInRange(child, 1, 1)
-                is WitGeneric -> parent.indentInRange(child, 1, 1)
-
-                else -> Indent.getNoneIndent()
-            }
+            return Indent.getNoneIndent()
         }
 
         private fun ASTNode.byCorner(child: ASTNode): Indent {

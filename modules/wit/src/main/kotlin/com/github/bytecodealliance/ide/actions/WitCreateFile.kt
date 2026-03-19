@@ -6,11 +6,12 @@ import com.intellij.ide.actions.CreateFileFromTemplateDialog.Builder
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
 
-class FluentCreateFile :
+class WitCreateFile :
     CreateFileFromTemplateAction(name, description, Wit) {
     companion object {
         private val name = com.github.bytecodealliance.MessageBundle.message("action.create_file")
         private val description = com.github.bytecodealliance.MessageBundle.message("action.create_file.description")
+
         // See [resources/colors/fileTemplate]
         private const val templatePath = "Fluent File";
     }

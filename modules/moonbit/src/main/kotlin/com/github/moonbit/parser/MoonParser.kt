@@ -4,7 +4,7 @@ import com.github.moonbit.psi.MoonTypes
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiParser
 import com.intellij.psi.tree.IElementType
-import com.intellij.psi.PsiBuilder
+import com.intellij.lang.PsiBuilder
 
 class MoonParser : PsiParser {
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
@@ -16,7 +16,7 @@ class MoonParser : PsiParser {
 
     private fun parseFile(builder: PsiBuilder) {
         while (!builder.eof()) {
-            when (val tokenType = builder.tokenType) {
+            when (builder.tokenType) {
                 MoonTypes.KW_PACKAGE -> parsePackage(builder)
                 MoonTypes.KW_IMPORT -> parseImport(builder)
                 MoonTypes.KW_EXPORT -> parseExport(builder)
@@ -41,54 +41,54 @@ class MoonParser : PsiParser {
 
     private fun parsePackage(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // package
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // package name
+            builder.advanceLexer()
         }
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.PACKAGE)
     }
 
     private fun parseImport(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // import
+        builder.advanceLexer()
         parsePath(builder)
         if (builder.tokenType == MoonTypes.KW_AS) {
-            builder.advanceLexer() // as
+            builder.advanceLexer()
             if (builder.tokenType == MoonTypes.SYMBOL) {
-                builder.advanceLexer() // alias
+                builder.advanceLexer()
             }
         }
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.IMPORT)
     }
 
     private fun parseExport(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // export
+        builder.advanceLexer()
         when (builder.tokenType) {
             MoonTypes.KW_IMPORT -> parseImport(builder)
             MoonTypes.KW_INCLUDE -> parseInclude(builder)
             else -> builder.advanceLexer()
         }
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.EXPORT)
     }
 
     private fun parseInclude(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // include
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // include path
+            builder.advanceLexer()
         }
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.INCLUDE)
     }
@@ -106,15 +106,15 @@ class MoonParser : PsiParser {
 
     private fun parseWorld(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // world
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // world name
+            builder.advanceLexer()
         }
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseWorldBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         marker.done(MoonTypes.WORLD)
@@ -141,32 +141,32 @@ class MoonParser : PsiParser {
 
     private fun parseUse(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // use
+        builder.advanceLexer()
         parsePath(builder)
         if (builder.tokenType == MoonTypes.KW_AS) {
-            builder.advanceLexer() // as
+            builder.advanceLexer()
             if (builder.tokenType == MoonTypes.SYMBOL) {
-                builder.advanceLexer() // alias
+                builder.advanceLexer()
             }
         }
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.USE)
     }
 
     private fun parseInterface(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // interface
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // interface name
+            builder.advanceLexer()
         }
         parseTypeParameters(builder)
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseInterfaceBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         marker.done(MoonTypes.INTERFACE)
@@ -174,17 +174,17 @@ class MoonParser : PsiParser {
 
     private fun parseTypeParameters(builder: PsiBuilder) {
         if (builder.tokenType == MoonTypes.LT) {
-            builder.advanceLexer() // <
+            builder.advanceLexer()
             while (builder.tokenType == MoonTypes.SYMBOL) {
-                builder.advanceLexer() // type parameter
+                builder.advanceLexer()
                 if (builder.tokenType == MoonTypes.COMMA) {
-                    builder.advanceLexer() // ,
+                    builder.advanceLexer()
                 } else {
                     break
                 }
             }
             if (builder.tokenType == MoonTypes.GT) {
-                builder.advanceLexer() // >
+                builder.advanceLexer()
             }
         }
     }
@@ -202,44 +202,44 @@ class MoonParser : PsiParser {
 
     private fun parseFunctionSignature(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // fn
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // function name
+            builder.advanceLexer()
         }
         parseFunctionParameters(builder)
         parseReturnType(builder)
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.FUNCTION_SIGNATURE)
     }
 
     private fun parseFunctionParameters(builder: PsiBuilder) {
         if (builder.tokenType == MoonTypes.PARENTHESIS_L) {
-            builder.advanceLexer() // (
+            builder.advanceLexer()
             while (builder.tokenType != MoonTypes.PARENTHESIS_R) {
                 if (builder.tokenType == MoonTypes.SYMBOL) {
-                    builder.advanceLexer() // parameter name
+                    builder.advanceLexer()
                 }
                 if (builder.tokenType == MoonTypes.COLON) {
-                    builder.advanceLexer() // :
+                    builder.advanceLexer()
                     parseType(builder)
                 }
                 if (builder.tokenType == MoonTypes.COMMA) {
-                    builder.advanceLexer() // ,
+                    builder.advanceLexer()
                 } else {
                     break
                 }
             }
             if (builder.tokenType == MoonTypes.PARENTHESIS_R) {
-                builder.advanceLexer() // )
+                builder.advanceLexer()
             }
         }
     }
 
     private fun parseReturnType(builder: PsiBuilder) {
         if (builder.tokenType == MoonTypes.OP_TO) {
-            builder.advanceLexer() // ->
+            builder.advanceLexer()
             parseType(builder)
         }
     }
@@ -247,24 +247,24 @@ class MoonParser : PsiParser {
     private fun parseType(builder: PsiBuilder) {
         when (builder.tokenType) {
             MoonTypes.SYMBOL -> {
-                builder.advanceLexer() // type name
+                builder.advanceLexer()
                 if (builder.tokenType == MoonTypes.LT) {
-                    builder.advanceLexer() // <
+                    builder.advanceLexer()
                     parseType(builder)
                     if (builder.tokenType == MoonTypes.COMMA) {
-                        builder.advanceLexer() // ,
+                        builder.advanceLexer()
                         parseType(builder)
                     }
                     if (builder.tokenType == MoonTypes.GT) {
-                        builder.advanceLexer() // >
+                        builder.advanceLexer()
                     }
                 }
             }
             MoonTypes.PARENTHESIS_L -> {
-                builder.advanceLexer() // (
+                builder.advanceLexer()
                 parseType(builder)
                 if (builder.tokenType == MoonTypes.PARENTHESIS_R) {
-                    builder.advanceLexer() // )
+                    builder.advanceLexer()
                 }
             }
             else -> builder.advanceLexer()
@@ -273,16 +273,16 @@ class MoonParser : PsiParser {
 
     private fun parseRecord(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // record
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // record name
+            builder.advanceLexer()
         }
         parseTypeParameters(builder)
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseRecordBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         marker.done(MoonTypes.RECORD)
@@ -291,13 +291,13 @@ class MoonParser : PsiParser {
     private fun parseRecordBody(builder: PsiBuilder) {
         while (!builder.eof() && builder.tokenType != MoonTypes.BRACE_R) {
             if (builder.tokenType == MoonTypes.SYMBOL) {
-                builder.advanceLexer() // field name
+                builder.advanceLexer()
                 if (builder.tokenType == MoonTypes.COLON) {
-                    builder.advanceLexer() // :
+                    builder.advanceLexer()
                     parseType(builder)
                 }
                 if (builder.tokenType == MoonTypes.SEMICOLON) {
-                    builder.advanceLexer() // ;
+                    builder.advanceLexer()
                 }
             } else {
                 builder.advanceLexer()
@@ -307,16 +307,16 @@ class MoonParser : PsiParser {
 
     private fun parseEnum(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // enum
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // enum name
+            builder.advanceLexer()
         }
         parseTypeParameters(builder)
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseEnumBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         marker.done(MoonTypes.ENUM)
@@ -325,16 +325,16 @@ class MoonParser : PsiParser {
     private fun parseEnumBody(builder: PsiBuilder) {
         while (!builder.eof() && builder.tokenType != MoonTypes.BRACE_R) {
             if (builder.tokenType == MoonTypes.SYMBOL) {
-                builder.advanceLexer() // enum variant
+                builder.advanceLexer()
                 if (builder.tokenType == MoonTypes.PARENTHESIS_L) {
-                    builder.advanceLexer() // (
+                    builder.advanceLexer()
                     parseType(builder)
                     if (builder.tokenType == MoonTypes.PARENTHESIS_R) {
-                        builder.advanceLexer() // )
+                        builder.advanceLexer()
                     }
                 }
                 if (builder.tokenType == MoonTypes.COMMA) {
-                    builder.advanceLexer() // ,
+                    builder.advanceLexer()
                 }
             } else {
                 builder.advanceLexer()
@@ -344,15 +344,15 @@ class MoonParser : PsiParser {
 
     private fun parseFlags(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // flags
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // flags name
+            builder.advanceLexer()
         }
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseFlagsBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         marker.done(MoonTypes.FLAGS)
@@ -361,15 +361,15 @@ class MoonParser : PsiParser {
     private fun parseFlagsBody(builder: PsiBuilder) {
         while (!builder.eof() && builder.tokenType != MoonTypes.BRACE_R) {
             if (builder.tokenType == MoonTypes.SYMBOL) {
-                builder.advanceLexer() // flag name
+                builder.advanceLexer()
                 if (builder.tokenType == MoonTypes.OP_ASSIGN) {
-                    builder.advanceLexer() // =
+                    builder.advanceLexer()
                     if (builder.tokenType == MoonTypes.INTEGER) {
-                        builder.advanceLexer() // value
+                        builder.advanceLexer()
                     }
                 }
                 if (builder.tokenType == MoonTypes.COMMA) {
-                    builder.advanceLexer() // ,
+                    builder.advanceLexer()
                 }
             } else {
                 builder.advanceLexer()
@@ -379,16 +379,16 @@ class MoonParser : PsiParser {
 
     private fun parseVariant(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // variant
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // variant name
+            builder.advanceLexer()
         }
         parseTypeParameters(builder)
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseVariantBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         marker.done(MoonTypes.VARIANT)
@@ -397,16 +397,16 @@ class MoonParser : PsiParser {
     private fun parseVariantBody(builder: PsiBuilder) {
         while (!builder.eof() && builder.tokenType != MoonTypes.BRACE_R) {
             if (builder.tokenType == MoonTypes.SYMBOL) {
-                builder.advanceLexer() // variant case
+                builder.advanceLexer()
                 if (builder.tokenType == MoonTypes.PARENTHESIS_L) {
-                    builder.advanceLexer() // (
+                    builder.advanceLexer()
                     parseType(builder)
                     if (builder.tokenType == MoonTypes.PARENTHESIS_R) {
-                        builder.advanceLexer() // )
+                        builder.advanceLexer()
                     }
                 }
                 if (builder.tokenType == MoonTypes.COMMA) {
-                    builder.advanceLexer() // ,
+                    builder.advanceLexer()
                 }
             } else {
                 builder.advanceLexer()
@@ -416,20 +416,20 @@ class MoonParser : PsiParser {
 
     private fun parseTrait(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // trait
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // trait name
+            builder.advanceLexer()
         }
         parseTypeParameters(builder)
         if (builder.tokenType == MoonTypes.KW_WITH) {
-            builder.advanceLexer() // with
+            builder.advanceLexer()
             parsePath(builder)
         }
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseTraitBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         marker.done(MoonTypes.TRAIT)
@@ -447,16 +447,16 @@ class MoonParser : PsiParser {
 
     private fun parseStruct(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // struct
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // struct name
+            builder.advanceLexer()
         }
         parseTypeParameters(builder)
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseStructBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         marker.done(MoonTypes.STRUCT)
@@ -465,20 +465,20 @@ class MoonParser : PsiParser {
     private fun parseStructBody(builder: PsiBuilder) {
         while (!builder.eof() && builder.tokenType != MoonTypes.BRACE_R) {
             if (builder.tokenType == MoonTypes.KW_MUTABLE) {
-                builder.advanceLexer() // mut
+                builder.advanceLexer()
             }
             if (builder.tokenType == MoonTypes.SYMBOL) {
-                builder.advanceLexer() // field name
+                builder.advanceLexer()
                 if (builder.tokenType == MoonTypes.COLON) {
-                    builder.advanceLexer() // :
+                    builder.advanceLexer()
                     parseType(builder)
                 }
                 if (builder.tokenType == MoonTypes.OP_ASSIGN) {
-                    builder.advanceLexer() // =
+                    builder.advanceLexer()
                     parseExpression(builder)
                 }
                 if (builder.tokenType == MoonTypes.SEMICOLON) {
-                    builder.advanceLexer() // ;
+                    builder.advanceLexer()
                 }
             } else {
                 builder.advanceLexer()
@@ -488,17 +488,17 @@ class MoonParser : PsiParser {
 
     private fun parseFunction(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // fn
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // function name
+            builder.advanceLexer()
         }
         parseFunctionParameters(builder)
         parseReturnType(builder)
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseFunctionBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         marker.done(MoonTypes.FUNCTION)
@@ -524,53 +524,53 @@ class MoonParser : PsiParser {
 
     private fun parseLet(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // let
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.KW_MUTABLE) {
-            builder.advanceLexer() // mut
+            builder.advanceLexer()
         }
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // variable name
+            builder.advanceLexer()
         }
         if (builder.tokenType == MoonTypes.COLON) {
-            builder.advanceLexer() // :
+            builder.advanceLexer()
             parseType(builder)
         }
         if (builder.tokenType == MoonTypes.OP_ASSIGN) {
-            builder.advanceLexer() // =
+            builder.advanceLexer()
             parseExpression(builder)
         }
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.LET)
     }
 
     private fun parseIf(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // if
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.PARENTHESIS_L) {
-            builder.advanceLexer() // (
+            builder.advanceLexer()
             parseExpression(builder)
             if (builder.tokenType == MoonTypes.PARENTHESIS_R) {
-                builder.advanceLexer() // )
+                builder.advanceLexer()
             }
         }
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseFunctionBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         if (builder.tokenType == MoonTypes.KW_ELSE) {
-            builder.advanceLexer() // else
+            builder.advanceLexer()
             if (builder.tokenType == MoonTypes.KW_IF) {
                 parseIf(builder)
             } else if (builder.tokenType == MoonTypes.BRACE_L) {
-                builder.advanceLexer() // {
+                builder.advanceLexer()
                 parseFunctionBody(builder)
                 if (builder.tokenType == MoonTypes.BRACE_R) {
-                    builder.advanceLexer() // }
+                    builder.advanceLexer()
                 }
             }
         }
@@ -579,19 +579,19 @@ class MoonParser : PsiParser {
 
     private fun parseMatch(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // match
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.PARENTHESIS_L) {
-            builder.advanceLexer() // (
+            builder.advanceLexer()
             parseExpression(builder)
             if (builder.tokenType == MoonTypes.PARENTHESIS_R) {
-                builder.advanceLexer() // )
+                builder.advanceLexer()
             }
         }
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseMatchBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         marker.done(MoonTypes.MATCH)
@@ -601,10 +601,10 @@ class MoonParser : PsiParser {
         while (!builder.eof() && builder.tokenType != MoonTypes.BRACE_R) {
             parsePattern(builder)
             if (builder.tokenType == MoonTypes.OP_THEN) {
-                builder.advanceLexer() // =>
+                builder.advanceLexer()
                 parseExpression(builder)
                 if (builder.tokenType == MoonTypes.COMMA) {
-                    builder.advanceLexer() // ,
+                    builder.advanceLexer()
                 }
             } else {
                 builder.advanceLexer()
@@ -629,19 +629,19 @@ class MoonParser : PsiParser {
 
     private fun parseWhile(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // while
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.PARENTHESIS_L) {
-            builder.advanceLexer() // (
+            builder.advanceLexer()
             parseExpression(builder)
             if (builder.tokenType == MoonTypes.PARENTHESIS_R) {
-                builder.advanceLexer() // )
+                builder.advanceLexer()
             }
         }
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseFunctionBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         marker.done(MoonTypes.WHILE)
@@ -649,19 +649,19 @@ class MoonParser : PsiParser {
 
     private fun parseFor(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // for
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // variable name
+            builder.advanceLexer()
         }
         if (builder.tokenType == MoonTypes.KW_IN) {
-            builder.advanceLexer() // in
+            builder.advanceLexer()
             parseExpression(builder)
         }
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseFunctionBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         marker.done(MoonTypes.FOR)
@@ -669,68 +669,68 @@ class MoonParser : PsiParser {
 
     private fun parseReturn(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // return
+        builder.advanceLexer()
         parseExpression(builder)
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.RETURN)
     }
 
     private fun parseBreak(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // break
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.BREAK)
     }
 
     private fun parseContinue(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // continue
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.CONTINUE)
     }
 
     private fun parseRaise(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // raise
+        builder.advanceLexer()
         parseExpression(builder)
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.RAISE)
     }
 
     private fun parseTry(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // try
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.BRACE_L) {
-            builder.advanceLexer() // {
+            builder.advanceLexer()
             parseFunctionBody(builder)
             if (builder.tokenType == MoonTypes.BRACE_R) {
-                builder.advanceLexer() // }
+                builder.advanceLexer()
             }
         }
         if (builder.tokenType == MoonTypes.KW_CATCH) {
-            builder.advanceLexer() // catch
+            builder.advanceLexer()
             if (builder.tokenType == MoonTypes.PARENTHESIS_L) {
-                builder.advanceLexer() // (
+                builder.advanceLexer()
                 if (builder.tokenType == MoonTypes.SYMBOL) {
-                    builder.advanceLexer() // error variable
+                    builder.advanceLexer()
                 }
                 if (builder.tokenType == MoonTypes.PARENTHESIS_R) {
-                    builder.advanceLexer() // )
+                    builder.advanceLexer()
                 }
             }
             if (builder.tokenType == MoonTypes.BRACE_L) {
-                builder.advanceLexer() // {
+                builder.advanceLexer()
                 parseFunctionBody(builder)
                 if (builder.tokenType == MoonTypes.BRACE_R) {
-                    builder.advanceLexer() // }
+                    builder.advanceLexer()
                 }
             }
         }
@@ -739,43 +739,107 @@ class MoonParser : PsiParser {
 
     private fun parseTypeDef(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // type
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // type name
+            builder.advanceLexer()
         }
         parseTypeParameters(builder)
         if (builder.tokenType == MoonTypes.OP_ASSIGN) {
-            builder.advanceLexer() // =
+            builder.advanceLexer()
             parseType(builder)
         }
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.TYPE_DEF)
     }
 
     private fun parseTypeAlias(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // typealias
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.SYMBOL) {
-            builder.advanceLexer() // alias name
+            builder.advanceLexer()
         }
         parseTypeParameters(builder)
         if (builder.tokenType == MoonTypes.OP_ASSIGN) {
-            builder.advanceLexer() // =
+            builder.advanceLexer()
             parseType(builder)
         }
         if (builder.tokenType == MoonTypes.SEMICOLON) {
-            builder.advanceLexer() // ;
+            builder.advanceLexer()
         }
         marker.done(MoonTypes.TYPE_ALIAS)
     }
 
     private fun parseImpl(builder: PsiBuilder) {
         val marker = builder.mark()
-        builder.advanceLexer() // impl
+        builder.advanceLexer()
         if (builder.tokenType == MoonTypes.KW_FOR) {
-            builder.advanceLexer() // for
+            builder.advanceLexer()
             parseType(builder)
         }
-        if (builder.tokenType == MoonTypes
+        if (builder.tokenType == MoonTypes.KW_WITH) {
+            builder.advanceLexer()
+            parsePath(builder)
+        }
+        if (builder.tokenType == MoonTypes.BRACE_L) {
+            builder.advanceLexer()
+            parseImplBody(builder)
+            if (builder.tokenType == MoonTypes.BRACE_R) {
+                builder.advanceLexer()
+            }
+        }
+        marker.done(MoonTypes.IMPL)
+    }
+
+    private fun parseImplBody(builder: PsiBuilder) {
+        while (!builder.eof() && builder.tokenType != MoonTypes.BRACE_R) {
+            when (builder.tokenType) {
+                MoonTypes.KW_FN -> parseFunction(builder)
+                else -> builder.advanceLexer()
+            }
+        }
+    }
+
+    private fun parseExtern(builder: PsiBuilder) {
+        val marker = builder.mark()
+        builder.advanceLexer()
+        if (builder.tokenType == MoonTypes.KW_FN) {
+            parseFunctionSignature(builder)
+        }
+        marker.done(MoonTypes.EXTERN)
+    }
+
+    private fun parseExpression(builder: PsiBuilder) {
+        parseTerm(builder)
+        while (isBinaryOperator(builder.tokenType)) {
+            builder.advanceLexer()
+            parseTerm(builder)
+        }
+    }
+
+    private fun parseTerm(builder: PsiBuilder) {
+        when (builder.tokenType) {
+            MoonTypes.INTEGER, MoonTypes.SYMBOL -> builder.advanceLexer()
+            MoonTypes.PARENTHESIS_L -> {
+                builder.advanceLexer()
+                parseExpression(builder)
+                if (builder.tokenType == MoonTypes.PARENTHESIS_R) {
+                    builder.advanceLexer()
+                }
+            }
+            else -> builder.advanceLexer()
+        }
+    }
+
+    private fun isBinaryOperator(tokenType: IElementType?): Boolean {
+        return when (tokenType) {
+            MoonTypes.OP_ADD, MoonTypes.OP_SUB, MoonTypes.OP_MUL, MoonTypes.OP_DIV, MoonTypes.OP_MOD,
+            MoonTypes.OP_EQ, MoonTypes.OP_NE, MoonTypes.OP_LT, MoonTypes.OP_LEQ, MoonTypes.OP_GT, MoonTypes.OP_GEQ,
+            MoonTypes.OP_AND, MoonTypes.OP_OR, MoonTypes.OP_BIT_AND, MoonTypes.OP_BIT_OR, MoonTypes.OP_XOR,
+            MoonTypes.OP_ASSIGN, MoonTypes.OP_ADD_ASSIGN, MoonTypes.OP_SUB_ASSIGN, MoonTypes.OP_MUL_ASSIGN, MoonTypes.OP_DIV_ASSIGN
+            -> true
+            else -> false
+        }
+    }
+}

@@ -1,10 +1,14 @@
 package com.github.bytecodealliance.lsp
 
-import com.intellij.platform.lsp.api.LspServerListener
-import org.eclipse.lsp4j.InitializeResult
+import com.intellij.internal.sandbox.LSPServer
+import java.util.stream.Stream
 
-class WitLanguageServerListener : LspServerListener {
-    override fun serverInitialized(params: InitializeResult) {
-        println("WitLanguageServerListener: ${params.serverInfo.name}@${params.serverInfo.version}")
+class WitLanguageServerListener : LSPServer {
+    override fun notifyOfChanges() {
+        TODO("Not yet implemented")
+    }
+
+    override fun diagnostics(): Stream<LSPServer.Diagnostic> {
+        TODO("Not yet implemented")
     }
 }

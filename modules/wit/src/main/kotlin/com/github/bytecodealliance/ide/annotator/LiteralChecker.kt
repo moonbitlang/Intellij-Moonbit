@@ -1,7 +1,6 @@
 // Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package com.github.bytecodealliance.ide.annotator
 
-import com.github.bytecodealliance.language.psi.WitPackageName
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
@@ -9,6 +8,7 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors.INVALID_STRI
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiElementVisitor
 
 class LiteralChecker : Annotator {
 
@@ -41,13 +41,8 @@ class LiteralChecker : Annotator {
 
 }
 
-private class CheckVisitor(holder: AnnotationHolder): WitAnnotator(holder) {
-    override fun visitPackageName(o: WitPackageName) {
-        println(o.text)
-        for (name in o.moduleNameList) {
-//            holder.newAnnotation(HighlightSeverity.ERROR, "Nested namespace dost not support yet")
-//                .range(name.textRange)
-//                .create()
-        }
+private class CheckVisitor(private val holder: AnnotationHolder): PsiElementVisitor() {
+    override fun visitElement(element: PsiElement) {
+        // Do nothing
     }
 }
