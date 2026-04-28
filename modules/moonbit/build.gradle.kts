@@ -7,7 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "2.3.20"
     id("org.jetbrains.intellij.platform") version "2.14.0"
     id("org.jetbrains.changelog") version "2.5.0"
-    id("org.jetbrains.qodana") version "2025.3.2"
+    id("org.jetbrains.qodana") version "2026.1.0"
 }
 
 group = "MoonLanguage"
